@@ -3,7 +3,6 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,14 +10,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Controller {
-    public TextField moodleField;
+    public TextField moodleNameField;
+    public TextField moodleURLField;
     public TextField nameField;
     public PasswordField passwordField;
 
     public void doLogin(ActionEvent actionEvent) {
         try {
             sendLoginRequest(
-                moodleField.getText(),
+                moodleURLField.getText(),
                 nameField.getText(),
                 passwordField.getText()
             );
