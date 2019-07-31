@@ -58,12 +58,16 @@ public class DataDB {
      * @throws SQLException
      */
     public boolean moodleExists(String url, String username) throws SQLException {
+        String sql = "SELECT url, username FROM moodles WHERE url=? AND username=?";
+
         Connection con = DriverManager.getConnection(dbURL);
-        Statement state = con.createStatement();
-        ResultSet check = state.executeQuery("SELECT url, username FROM moodles WHERE url=? AND username=?");
-        boolean result = check.next();
-        check.close();
-        state.close();
+        PreparedStatement prep = con.prepareStatement(sql);
+        prep.setString(1, url);
+        prep.setString(2, username);
+        ResultSet rs = prep.executeQuery();
+        boolean result = rs.next();
+        rs.close();
+        prep.close();
         con.close();
         return result;
     }
