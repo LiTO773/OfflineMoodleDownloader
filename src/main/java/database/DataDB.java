@@ -19,7 +19,10 @@ public class DataDB {
         initDB();
     }
 
-    // Checks if the DB is populated, if not, creates all the tables
+    /**
+     * Checks if the DB is populated, if not, creates all the necessary tables
+     * @throws SQLException
+     */
     private void initDB() throws SQLException {
         Statement state = con.createStatement();
         ResultSet check = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='moodles'");
@@ -42,5 +45,19 @@ public class DataDB {
             // Files table: id | name | url | time_modified | module_id | folder_id
             statement.execute("CREATE TABLE files(id integer, name varchar(60), url varchar(255), time_modified integer, module_id integer, folder_id integer, primary key(id));");
         }
+    }
+
+    /**
+     * Checks if the inserted Moodle already exists through it's url and username.
+     * @param url Moodle's URL
+     * @param username Moodle's username
+     * @return if it already exists or not
+     * @throws SQLException
+     */
+    public boolean moodleExists(String url, String username) throws SQLException {
+        Statement state = con.createStatement();
+        ResultSet check = state.executeQuery("SELECT url, username FROM moodles WHERE url=? AND username=?");
+
+        return check.next();
     }
 }
