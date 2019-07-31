@@ -19,7 +19,7 @@ public class MoodleWSController {
      * @param url Desired Moodle URL
      * @return Correctly formatted URL
      */
-    public String httpsURL(String url) throws CustomException {
+    public static String httpsURL(String url) throws CustomException {
         // Add protocol to the URL and remove the end '/'
         String properURL = url;
         if (!url.contains("http://") && !url.contains("https://")) {

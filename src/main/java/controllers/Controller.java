@@ -2,13 +2,16 @@ package controllers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import database.DataDB;
 import javafx.event.ActionEvent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import models.CustomException;
 import models.Errors;
+import models.TokenID;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class Controller {
     public TextField moodleNameField;
@@ -28,43 +31,66 @@ public class Controller {
             return;
         }
 
-        // Send a request to Moodle
+        // Create a correct URL
+        String moodleURL = null;
         try {
-            sendLoginRequest(
-                moodleURLField.getText(),
+            moodleURL = MoodleWSController.httpsURL(moodleURLField.getText());
+        } catch (CustomException e) {
+            e.printStackTrace();
+            ErrorController.errorDialog(e.getMessage());
+            return;
+        }
+
+        // Check if there is already an instance in the DB
+        DataDB db = null;
+        try {
+            db = new DataDB();
+            if (db.moodleExists(moodleURL, nameField.getText().trim())) {
+                ErrorController.errorDialog(Errors.MOODLE_EXISTS);
+                return;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            ErrorController.errorDialog(Errors.SQL_ERROR);
+            return;
+        }
+
+        // Send a request to Moodle
+        TokenID tokenID = null;
+        try {
+            tokenID = sendLoginRequest(
+                moodleURL,
                 nameField.getText(),
                 passwordField.getText()
             );
         } catch (Exception e) {
             e.printStackTrace();
+            ErrorController.errorDialog(e.getMessage());
+            return;
+        }
+
+        // Add the information to the DB
+        try {
+            db.newMoodle(
+                moodleNameField.getText().trim(),
+                moodleURL,
+                nameField.getText(),
+                tokenID.getToken(),
+                tokenID.getUserid()
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+            ErrorController.errorDialog(e.getMessage());
+            return;
         }
     }
 
-    private void sendLoginRequest(String moodle, String username, String password) {
+    private TokenID sendLoginRequest(String moodleURL, String username, String password) throws CustomException, IOException {
         MoodleWSController moodleWS = new MoodleWSController();
-
-        String moodleURL = null;
-        try {
-            moodleURL = moodleWS.httpsURL(moodle);
-        } catch (CustomException e) {
-            e.printStackTrace();
-            ErrorController.errorDialog(e.getMessage());
-            return;
-        }
+        TokenID tokenID = new TokenID();
 
         // Gets the user's token (as a response)
-        String tokenResponse = null;
-        try {
-            tokenResponse = moodleWS.getTokenResponse(moodleURL, username, password);
-        } catch (IOException e) {
-            e.printStackTrace();
-            ErrorController.errorDialog(Errors.IO_ERROR);
-            return;
-        } catch (CustomException e) {
-            e.printStackTrace();
-            ErrorController.errorDialog(e.getMessage());
-            return;
-        }
+        String tokenResponse = moodleWS.getTokenResponse(moodleURL, username, password);
 
         // Check if the response contains the user's token:
         JsonObject jsonResponse = new JsonParser().parse(tokenResponse).getAsJsonObject();
@@ -73,42 +99,30 @@ public class Controller {
             String error = jsonResponse.get("errorcode").toString();
             switch (error) {
                 case "enablewsdescription":
-                    ErrorController.errorDialog(Errors.INCOMPATIBLE_MOODLE);
-                    break;
+                    throw new CustomException(Errors.INCOMPATIBLE_MOODLE);
                 case "missingparam":
-                    ErrorController.errorDialog(Errors.MISSING_PARAMS);
-                    break;
+                    throw new CustomException(Errors.MISSING_PARAMS);
                 case "invalidlogin":
-                    ErrorController.errorDialog(Errors.INVALID_CREDENTIALS);
-                    break;
+                    throw new CustomException(Errors.INVALID_CREDENTIALS);
                 default:
-                    ErrorController.errorDialog("Moodle returned this error: " + error);
-                    break;
+                    throw new CustomException("Moodle returned this error: " + error);
             }
-            return;
         }
 
         // Everything went correctly
         String tokenRaw = jsonResponse.get("token").toString();
         String token = tokenRaw.substring(1, tokenRaw.length() - 1); // tokenRaw has extra ""
+        tokenID.setToken(token);
 
         System.out.println(token);
 
         // Get the userid
-        int userid = -1;
-        try {
-            userid = moodleWS.getUserID(moodleURL, token);
-        } catch (IOException e) {
-            e.printStackTrace();
-            ErrorController.errorDialog(Errors.IO_ERROR);
-            return;
-        } catch (CustomException e) {
-            e.printStackTrace();
-            ErrorController.errorDialog(e.getMessage());
-            return;
-        }
+        int userid = moodleWS.getUserID(moodleURL, token);
 
         // Everything went correctly, it can now be added to the DB
         System.out.println(userid);
+        tokenID.setUserid(userid);
+
+        return tokenID;
     }
 }

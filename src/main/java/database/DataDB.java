@@ -5,7 +5,6 @@ import java.sql.*;
 public class DataDB {
     private String dbURL = "jdbc:sqlite:omdData.db";
     private String dbDriver = "org.sqlite.JDBC";
-    private Connection con;
 
     // Starts the connection to the database
     public DataDB() throws SQLException {
@@ -15,7 +14,6 @@ public class DataDB {
             System.out.println("Java was unable to find the SQLite connector!");
             e.printStackTrace();
         }
-        con = DriverManager.getConnection(dbURL);
         initDB();
     }
 
@@ -24,6 +22,7 @@ public class DataDB {
      * @throws SQLException
      */
     private void initDB() throws SQLException {
+        Connection con = DriverManager.getConnection(dbURL);
         Statement state = con.createStatement();
         ResultSet check = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='moodles'");
 
@@ -44,7 +43,11 @@ public class DataDB {
             statement.execute("CREATE TABLE folders(id integer, name varchar(60), module_id integer, primary key(id));");
             // Files table: id | name | url | time_modified | module_id | folder_id
             statement.execute("CREATE TABLE files(id integer, name varchar(60), url varchar(255), time_modified integer, module_id integer, folder_id integer, primary key(id));");
+            statement.close();
         }
+        check.close();
+        state.close();
+        con.close();
     }
 
     /**
@@ -55,9 +58,38 @@ public class DataDB {
      * @throws SQLException
      */
     public boolean moodleExists(String url, String username) throws SQLException {
+        Connection con = DriverManager.getConnection(dbURL);
         Statement state = con.createStatement();
         ResultSet check = state.executeQuery("SELECT url, username FROM moodles WHERE url=? AND username=?");
+        boolean result = check.next();
+        check.close();
+        state.close();
+        con.close();
+        return result;
+    }
 
-        return check.next();
+    /**
+     * Creates a new Moodle in the table.
+     * @param name Moodle's name
+     * @param url Moodle's URL
+     * @param username User account username
+     * @param token Access token
+     * @param userid Access user id
+     * @return If the operation was successful
+     */
+    public boolean newMoodle(String name, String url, String username, String token, int userid) throws SQLException {
+        String sql = "INSERT INTO moodles(name,url,username,token,userid) values(?,?,?,?,?);";
+
+        Connection con = DriverManager.getConnection(dbURL);
+        PreparedStatement prep = con.prepareStatement(sql);
+        prep.setString(1, name);
+        prep.setString(2, url);
+        prep.setString(3, username);
+        prep.setString(4, token);
+        prep.setInt(5, userid);
+        boolean result = prep.executeUpdate() == 1;
+        prep.close();
+        con.close();
+        return result;
     }
 }
