@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
+import models.CurrentMoodle;
 
 import java.io.File;
 
@@ -28,12 +29,13 @@ public class ChooseDirectoryController {
         }else{
             directoryChosen.setText(selectedDirectory.getAbsolutePath());
             nextScene.setDisable(false);
+            CurrentMoodle.getMoodle().setDiskLocation(selectedDirectory.getAbsolutePath());
         }
     }
 
     public void nextScene(ActionEvent actionEvent) {
         SceneChanger sc = new SceneChanger(actionEvent);
 
-        sc.changeScene("MoodleActions/ChooseDirectory.fxml");
+        sc.changeScene("MoodleActions/ChooseCourses.fxml");
     }
 }
