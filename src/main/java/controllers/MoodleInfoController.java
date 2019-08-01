@@ -17,7 +17,7 @@ import models.TokenID;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class Controller {
+public class MoodleInfoController {
     public TextField moodleNameField;
     public TextField moodleURLField;
     public TextField nameField;
