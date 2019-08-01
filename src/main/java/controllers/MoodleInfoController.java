@@ -4,15 +4,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import connections.MoodleWSConnection;
 import database.DataDB;
-import helpers.ErrorDialog;
+import helpers.MessageDialog;
 import helpers.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import models.CustomException;
-import models.Errors;
-import models.TokenID;
+import models.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -32,7 +31,7 @@ public class MoodleInfoController {
                 passwordField.getText().trim().isEmpty();
 
         if (empty) {
-            ErrorDialog.errorDialog(Errors.TEXTFIELD_EMPTY);
+            MessageDialog.errorDialog(Errors.TEXTFIELD_EMPTY);
             return;
         }
 
@@ -42,7 +41,7 @@ public class MoodleInfoController {
             moodleURL = MoodleWSConnection.httpsURL(moodleURLField.getText());
         } catch (CustomException e) {
             e.printStackTrace();
-            ErrorDialog.errorDialog(e.getMessage());
+            MessageDialog.errorDialog(e.getMessage());
             return;
         }
 
@@ -51,12 +50,12 @@ public class MoodleInfoController {
         try {
             db = new DataDB();
             if (db.moodleExists(moodleURL, nameField.getText().trim())) {
-                ErrorDialog.errorDialog(Errors.MOODLE_EXISTS);
+                MessageDialog.errorDialog(Errors.MOODLE_EXISTS);
                 return;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            ErrorDialog.errorDialog(Errors.SQL_ERROR);
+            MessageDialog.errorDialog(Errors.SQL_ERROR);
             return;
         }
 
@@ -70,24 +69,21 @@ public class MoodleInfoController {
             );
         } catch (Exception e) {
             e.printStackTrace();
-            ErrorDialog.errorDialog(e.getMessage());
+            MessageDialog.errorDialog(e.getMessage());
             return;
         }
 
-        // Add the information to the DB
-        try {
-            db.newMoodle(
+        // Everything went correctly, save the Moodle in CurrentMoodle
+        Moodle moodle = new Moodle(
                 moodleNameField.getText().trim(),
                 moodleURL,
                 nameField.getText(),
                 tokenID.getToken(),
                 tokenID.getUserid()
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-            ErrorDialog.errorDialog(e.getMessage());
-            return;
-        }
+        );
+        MessageDialog.infoDialog("The Moodle you inserted is valid 🎉. Please continue the setup.");
+        CurrentMoodle.setMoodle(moodle);
+        nextSceneButton.setDisable(false);
     }
 
     private TokenID sendLoginRequest(String moodleURL, String username, String password) throws CustomException, IOException {
@@ -123,10 +119,6 @@ public class MoodleInfoController {
 
         // Get the userid
         int userid = moodleWS.getUserID(moodleURL, token);
-
-        // Everything went correctly, it can now be added to the DB
-        System.out.println(userid);
-        nextSceneButton.setDisable(false);
         tokenID.setUserid(userid);
 
         return tokenID;

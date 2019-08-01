@@ -8,11 +8,11 @@ public class Moodle {
     String url;
     String username;
     String token;
-    String userid;
+    int userid;
     Set<Course> courses;
     String diskLocation;
 
-    public Moodle(String name, String url, String username, String token, String userid) {
+    public Moodle(String name, String url, String username, String token, int userid) {
         this.name = name;
         this.url = url;
         this.username = username;
@@ -60,11 +60,11 @@ public class Moodle {
         this.token = token;
     }
 
-    public String getUserid() {
+    public int getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(int userid) {
         this.userid = userid;
     }
 
