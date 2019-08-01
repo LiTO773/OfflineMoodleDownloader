@@ -2,11 +2,13 @@ package controllers;
 
 import connections.MoodleWSConnection;
 import helpers.MessageDialog;
+import helpers.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 import models.Course;
+import models.CurrentMoodle;
 import models.CustomException;
 
 import java.io.IOException;
@@ -43,8 +45,8 @@ public class ChooseCourses {
     }
 
     public void nextScene(ActionEvent actionEvent) {
-        for (Course c: courses) {
-            System.out.println(c);
-        }
+        CurrentMoodle.getMoodle().setCourses(courses);
+        SceneChanger sc = new SceneChanger(actionEvent);
+        sc.changeScene("MoodleActions/Confirm.fxml");
     }
 }

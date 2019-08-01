@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="center" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ConfirmController">
+   <Label text="Moodle Information:">
+      <font>
+         <Font size="17.0" />
+      </font></Label>
+   <Label fx:id="moodleInfo" />
+   <Label text="Storage Location:">
+      <font>
+         <Font size="17.0" />
+      </font>
+   </Label>
+   <Label fx:id="moodleLocation" />
+   <Label text="Courses to download:">
+      <font>
+         <Font size="17.0" />
+      </font>
+   </Label>
+   <Label fx:id="moodleCourses" />
+</VBox>
