@@ -1,14 +1,17 @@
 package connections;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.okhttp.*;
-import models.CustomException;
-import models.Errors;
+import models.*;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MoodleWSConnection {
 
@@ -72,6 +75,35 @@ public class MoodleWSConnection {
             int userid = Integer.parseInt(responseJSON.get("userid").toString());
             return userid;
         }
+    }
+
+    public Set<Course> getCourses() throws IOException, CustomException {
+        Moodle currentMoodle = CurrentMoodle.getMoodle();
+        String moodleURL = currentMoodle.getUrl() + "/webservice/rest/server.php";
+
+        // Send a request for all the available courses
+        RequestBody body = new FormEncodingBuilder()
+                .add("wstoken", currentMoodle.getToken())
+                .add("wsfunction", "core_enrol_get_users_courses")
+                .add("userid", Integer.toString(currentMoodle.getUserid()))
+                .add("moodlewsrestformat", "json")
+                .build();
+
+        // Read the response
+        String response = sendPOSTRequest(moodleURL, body);
+        System.out.println(response);
+        JsonArray responseJSON = new JsonParser().parse(response).getAsJsonArray();
+
+        // Create a Set of Courses with all the information
+        HashSet<Course> courses = new HashSet<>();
+        for (JsonElement jo: responseJSON) {
+            int id = ((JsonObject) jo).get("id").getAsInt();
+            String shortname = ((JsonObject) jo).get("shortname").getAsString();
+
+            Course c = new Course(id, shortname, true);
+            courses.add(c);
+        }
+        return courses;
     }
 
     private String sendPOSTRequest(String url, RequestBody body) throws IOException, CustomException {
