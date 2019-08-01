@@ -1,4 +1,4 @@
-package controllers;
+package connections;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class MoodleWSController {
+public class MoodleWSConnection {
 
     private final OkHttpClient client = new OkHttpClient();
 

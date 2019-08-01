@@ -34,15 +34,15 @@ public class DataDB {
             // Moodles table: id | name | url | username | token | userid
             statement.execute("CREATE TABLE moodles(id integer, name varchar(60), url varchar(60), username varchar(60), token varchar(60), userid integer, primary key(id));");
             // Courses table: id | name | moodle_id
-            statement.execute("CREATE TABLE courses(id integer , name varchar(60), moodle_id integer, primary key(id));");
+            statement.execute("CREATE TABLE courses(id integer , name varchar(60), moodle_id integer, download integer, primary key(id));");
             // Sections table: id | name | course_id
-            statement.execute("CREATE TABLE sections(id integer, name varchar(60), course_id integer, primary key(id));");
+            statement.execute("CREATE TABLE sections(id integer, name varchar(60), course_id integer, download integer, primary key(id));");
             // Modules table: id | name | section_id
-            statement.execute("CREATE TABLE modules(id integer, name varchar(60), section_id integer, primary key(id));");
+            statement.execute("CREATE TABLE modules(id integer, name varchar(60), section_id integer, download integer, primary key(id));");
             // Folders table: id | name | module_id
-            statement.execute("CREATE TABLE folders(id integer, name varchar(60), module_id integer, primary key(id));");
+            statement.execute("CREATE TABLE folders(id integer, name varchar(60), module_id integer, download integer, primary key(id));");
             // Files table: id | name | url | time_modified | module_id | folder_id
-            statement.execute("CREATE TABLE files(id integer, name varchar(60), url varchar(255), time_modified integer, module_id integer, folder_id integer, primary key(id));");
+            statement.execute("CREATE TABLE files(id integer, name varchar(60), url varchar(255), time_modified integer, module_id integer, folder_id integer, download integer, primary key(id));");
             statement.close();
         }
         check.close();

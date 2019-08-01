@@ -23,4 +23,6 @@
    <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
    <Button onAction="#doLogin" text="Submit" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+
+   <Button fx:id="nextSceneButton" onAction="#nextScene" disable="true" text="Next" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 </GridPane>
