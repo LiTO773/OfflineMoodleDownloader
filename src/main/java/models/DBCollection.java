@@ -1,5 +1,6 @@
 package models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -12,11 +13,11 @@ public abstract class DBCollection<E> {
     private boolean download;
     private Set<E> collection;
 
-    public DBCollection(int id, String name, boolean download, Set<E> collection) {
+    public DBCollection(int id, String name, boolean download) {
         this.id = id;
         this.name = name;
         this.download = download;
-        this.collection = collection;
+        this.collection = new HashSet<>();
     }
 
     public int getId() {
@@ -31,9 +32,11 @@ public abstract class DBCollection<E> {
         return collection;
     }
 
-    public void setCollection(Set<E> collection) {
-        this.collection = collection;
-    }
+    // These 3 methods are package private since they should be rewritten in each class with the appropriate name
+    boolean addToCollection(E e) { return collection.add(e); }
+    boolean hasInCollection(E e) { return collection.contains(e); }
+    boolean removeFromCollection(E e) { return collection.remove(e); }
+    // ---
 
     public String getName() {
         return name;

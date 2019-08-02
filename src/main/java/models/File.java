@@ -1,6 +1,6 @@
 package models;
 
-public class File implements DBContent {
+public class File implements Content {
     int id;
     String name;
     int timeModified;
