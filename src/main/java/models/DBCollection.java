@@ -32,7 +32,7 @@ public abstract class DBCollection<E> {
         return collection;
     }
 
-    // These 3 methods are package private since they should be rewritten in each class with the appropriate name
+    // These 3 methods are package private since they should be rewritten in each class with the appropriate moduleName
     boolean addToCollection(E e) { return collection.add(e); }
     boolean hasInCollection(E e) { return collection.contains(e); }
     boolean removeFromCollection(E e) { return collection.remove(e); }
@@ -58,7 +58,7 @@ public abstract class DBCollection<E> {
     public String toString() {
         return "DBCollection{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", moduleName='" + name + '\'' +
                 ", download=" + download +
                 '}';
     }

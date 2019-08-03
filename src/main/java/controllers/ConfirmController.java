@@ -1,10 +1,15 @@
 package controllers;
 
+import connections.MoodleWSConnection;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import models.Course;
 import models.CurrentMoodle;
+import models.CustomException;
 import models.Moodle;
+
+import java.io.IOException;
 
 public class ConfirmController {
     public Label moodleInfo;
@@ -23,9 +28,22 @@ public class ConfirmController {
 
         String courses = "";
         for (Course c: currentMoodle.getCourses()) {
-            courses += "- " + c.getName() + "\n";
+            if (c.isDownload()) {
+                courses += "- " + c.getName() + "\n";
+            }
         }
 
         moodleCourses.setText(courses);
+    }
+
+    public void download(ActionEvent actionEvent) {
+        MoodleWSConnection moodleWSConnection = new MoodleWSConnection();
+        try {
+            moodleWSConnection.fillMoodle();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CustomException e) {
+            e.printStackTrace();
+        }
     }
 }

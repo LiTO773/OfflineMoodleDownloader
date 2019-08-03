@@ -1,34 +1,34 @@
 package models;
 
 public class File implements Content {
-    int id;
-    String name;
+    String moduleName;
+    String fileName;
     int timeModified;
     String fileURL;
     boolean download;
 
-    public File(int id, String name, int timeModified, String fileURL, boolean download) {
-        this.id = id;
-        this.name = name;
+    public File(String moduleName, String fileName, int timeModified, String fileURL, boolean download) {
+        this.moduleName = moduleName;
+        this.fileName = fileName;
         this.timeModified = timeModified;
         this.fileURL = fileURL;
         this.download = download;
     }
 
-    public int getId() {
-        return id;
+    public String getModuleName() {
+        return moduleName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
     }
 
-    public String getName() {
-        return name;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public int getTimeModified() {
@@ -53,5 +53,16 @@ public class File implements Content {
 
     public void setDownload(boolean download) {
         this.download = download;
+    }
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "moduleName='" + moduleName + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", timeModified=" + timeModified +
+                ", fileURL='" + fileURL + '\'' +
+                ", download=" + download +
+                '}';
     }
 }

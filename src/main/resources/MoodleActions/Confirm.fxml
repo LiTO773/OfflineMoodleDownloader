@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.Button?>
 <VBox alignment="center" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ConfirmController">
    <Label text="Moodle Information:">
       <font>
@@ -22,4 +23,5 @@
       </font>
    </Label>
    <Label fx:id="moodleCourses" />
+   <Button onAction="#download" />
 </VBox>
