@@ -7,26 +7,28 @@ import database.DataDB;
 import helpers.MessageDialog;
 import helpers.SceneChanger;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import models.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class MoodleInfoController {
-    public TextField moodleNameField;
     public TextField moodleURLField;
+    public TextField moodleName;
     public TextField nameField;
     public PasswordField passwordField;
     public Button nextSceneButton;
+    public CheckBox nameCheckbox;
+
+    public JsonObject jsonObject;
 
     public void doLogin(ActionEvent actionEvent) {
         // Check if all the parameters where filled
-        boolean empty = moodleNameField.getText().trim().isEmpty() ||
-                moodleURLField.getText().trim().isEmpty() ||
+        boolean empty = moodleURLField.getText().trim().isEmpty() ||
                 nameField.getText().trim().isEmpty() ||
                 passwordField.getText().trim().isEmpty();
 
@@ -61,6 +63,7 @@ public class MoodleInfoController {
 
         // Send a request to Moodle
         TokenID tokenID = null;
+        String siteName = null;
         try {
             tokenID = sendLoginRequest(
                 moodleURL,
@@ -74,8 +77,16 @@ public class MoodleInfoController {
         }
 
         // Everything went correctly, save the Moodle in CurrentMoodle
+        String name;
+        if(nameCheckbox.isSelected()){
+            name = jsonObject.get("sitename").toString();
+            name = name.substring(1, name.length() - 1);
+        } else {
+            name = moodleName.getText();
+        }
+
         Moodle moodle = new Moodle(
-                moodleNameField.getText().trim(),
+                name,
                 moodleURL,
                 nameField.getText(),
                 tokenID.getToken(),
@@ -118,8 +129,8 @@ public class MoodleInfoController {
         System.out.println(token);
 
         // Get the userid
-        int userid = moodleWS.getUserID(moodleURL, token);
-        tokenID.setUserid(userid);
+        jsonObject = moodleWS.getUserID(moodleURL, token);
+        tokenID.setUserid(Integer.parseInt(jsonObject.get("userid").toString()));
 
         return tokenID;
     }
@@ -129,5 +140,14 @@ public class MoodleInfoController {
         SceneChanger sc = new SceneChanger(actionEvent);
 
         sc.changeScene("MoodleActions/ChooseDirectory.fxml");
+    }
+
+    public void checkCheckbox(ActionEvent actionEvent) {
+        if(nameCheckbox.isSelected()){
+            moodleName.setDisable(true);
+            moodleName.setText("");
+        } else {
+            moodleName.setDisable(false);
+        }
     }
 }

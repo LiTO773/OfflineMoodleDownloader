@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MoodleInfoController">
+
+   <Label text="Moodle URL:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+
+   <TextField fx:id="moodleURLField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+   <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+
+   <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+   <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+
+   <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+   <Button onAction="#doLogin" text="Submit" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+
+   <Button fx:id="nextSceneButton" disable="true" onAction="#nextScene" text="Next" GridPane.columnIndex="0" GridPane.rowIndex="6" />
    <Label text="Moodle Name:" />
-   <TextField fx:id="moodleNameField" GridPane.columnIndex="1" />
-
-   <Label text="Moodle URL:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-
-   <TextField fx:id="moodleURLField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-   <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-
-   <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-   <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-
-   <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-   <Button onAction="#doLogin" text="Submit" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-
-   <Button fx:id="nextSceneButton" onAction="#nextScene" disable="true" text="Next" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+   <TextField fx:id="moodleName" GridPane.columnIndex="1" />
+   <CheckBox fx:id="nameCheckbox" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#checkCheckbox" prefHeight="95.0" prefWidth="143.0" text="Fill name automatically" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
 </GridPane>

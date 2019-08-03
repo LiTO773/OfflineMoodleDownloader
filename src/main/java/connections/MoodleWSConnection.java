@@ -56,7 +56,7 @@ public class MoodleWSConnection {
         return sendPOSTRequest(moodleURL, body);
     }
 
-    public int getUserID(String url, String token) throws IOException, CustomException {
+    public JsonObject getUserID(String url, String token) throws IOException, CustomException {
         String moodleURL = url + "/webservice/rest/server.php";
 
         RequestBody body = new FormEncodingBuilder()
@@ -72,8 +72,8 @@ public class MoodleWSConnection {
         if (!responseJSON.has("userid")) {
             throw new CustomException(Errors.USERID_ERROR);
         } else {
-            int userid = Integer.parseInt(responseJSON.get("userid").toString());
-            return userid;
+//            int userid = Integer.parseInt(responseJSON.get("userid").toString());
+            return responseJSON;
         }
     }
 
