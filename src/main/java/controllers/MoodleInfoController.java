@@ -21,7 +21,6 @@ public class MoodleInfoController {
     public TextField moodleName;
     public TextField nameField;
     public PasswordField passwordField;
-    public Button nextSceneButton;
     public CheckBox nameCheckbox;
 
     public JsonObject jsonObject;
@@ -94,7 +93,8 @@ public class MoodleInfoController {
         );
         MessageDialog.infoDialog("The Moodle you inserted is valid 🎉. Please continue the setup.");
         CurrentMoodle.setMoodle(moodle);
-        nextSceneButton.setDisable(false);
+        SceneChanger sc = new SceneChanger(actionEvent);
+        sc.changeScene("MoodleActions/ChooseDirectory.fxml");
     }
 
     private TokenID sendLoginRequest(String moodleURL, String username, String password) throws CustomException, IOException {
@@ -133,13 +133,6 @@ public class MoodleInfoController {
         tokenID.setUserid(Integer.parseInt(jsonObject.get("userid").toString()));
 
         return tokenID;
-    }
-
-
-    public void nextScene(ActionEvent actionEvent) {
-        SceneChanger sc = new SceneChanger(actionEvent);
-
-        sc.changeScene("MoodleActions/ChooseDirectory.fxml");
     }
 
     public void checkCheckbox(ActionEvent actionEvent) {

@@ -25,7 +25,6 @@
 
    <Button onAction="#doLogin" text="Submit" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 
-   <Button fx:id="nextSceneButton" disable="true" onAction="#nextScene" text="Next" GridPane.columnIndex="0" GridPane.rowIndex="6" />
    <Label text="Moodle Name:" />
    <TextField fx:id="moodleName" disable="true" GridPane.columnIndex="1" />
    <CheckBox fx:id="nameCheckbox" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#checkCheckbox" prefHeight="95.0" prefWidth="143.0" selected="true" text="Fill name automatically" GridPane.columnIndex="1" GridPane.rowIndex="1" />
