@@ -72,7 +72,6 @@ public class MoodleWSConnection {
         if (!responseJSON.has("userid")) {
             throw new CustomException(Errors.USERID_ERROR);
         } else {
-//            int userid = Integer.parseInt(responseJSON.get("userid").toString());
             return responseJSON;
         }
     }
@@ -111,7 +110,7 @@ public class MoodleWSConnection {
      */
     public void fillMoodle() throws IOException, CustomException {
         Moodle currentMoodle = CurrentMoodle.getMoodle();
-        String moodleURL = currentMoodle.getUrl() + "/webservice/rest/server.php";;
+        String moodleURL = currentMoodle.getUrl() + "/webservice/rest/server.php";
         Set<Course> courses = currentMoodle.getCourses();
 
         for (Course c: courses) {
