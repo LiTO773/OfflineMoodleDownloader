@@ -14,7 +14,6 @@ import java.io.IOException;
  * It only exists to avoid a lot of duplicate code.
  */
 public class SceneChanger {
-    private ActionEvent event;
     private Parent resource;
     private Stage app;
 
@@ -23,8 +22,11 @@ public class SceneChanger {
      * @param event
      */
     public SceneChanger(ActionEvent event) {
-        this.event = event;
-        this.app = (Stage) ((Node) this.event.getSource()).getScene().getWindow();
+        this.app = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    }
+
+    public SceneChanger(Stage stage) {
+        this.app = stage;
     }
 
     /**

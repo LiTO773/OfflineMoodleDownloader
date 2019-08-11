@@ -1,6 +1,7 @@
 package controllers;
 
 import helpers.MessageDialog;
+import helpers.SceneChanger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.stage.Stage;
 import models.CurrentMoodle;
 import models.Errors;
 import models.Moodle;
@@ -77,6 +79,7 @@ public class LoadingInfoController {
                 protected void failed() {
                     Throwable error = getException();
 
+                    // Display error
                     switch (error.getMessage()) {
                         case "\"enablewsdescription\"":
                             MessageDialog.errorDialog(Errors.INCOMPATIBLE_MOODLE);
@@ -91,6 +94,11 @@ public class LoadingInfoController {
                             MessageDialog.errorDialog("Moodle returned this error: " + error);
                             break;
                     }
+
+                    // Return to the previous scene
+                    SceneChanger sc = new SceneChanger((Stage) loginLabel.getScene().getWindow());
+                    MoodleInfoController nextSceneController = new MoodleInfoController(name, getNameAutomatically, url, username, password);
+                    sc.changeSceneWithFactory("MoodleActions/MoodleInfo.fxml", nextSceneController);
                 }
             };
         }

@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.fxml.FXML;
 import suppliers.MoodleWSConnection;
 import database.DataDB;
 import helpers.MessageDialog;
@@ -11,11 +12,43 @@ import models.*;
 import java.sql.SQLException;
 
 public class MoodleInfoController {
+    // These variables are only used when the user returns to the scene
+    private String name = "";
+    private boolean getNameAutomatically = true;
+    private String url = "";
+    private String username = "";
+    private String password = "";
+
+    // FXML
     public TextField moodleURLField;
     public TextField moodleName;
     public TextField usernameField;
     public PasswordField passwordField;
     public CheckBox nameCheckbox;
+
+    public MoodleInfoController() {
+    }
+
+    // Constructor used when the user returns to the scene
+    public MoodleInfoController(String name, boolean getNameAutomatically, String url, String username, String password) {
+        this.name = name;
+        this.getNameAutomatically = getNameAutomatically;
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
+
+    @FXML
+    public void initialize() {
+        moodleURLField.setText(url);
+        usernameField.setText(username);
+        passwordField.setText(password);
+        if (!getNameAutomatically) {
+            moodleName.setDisable(false);
+            moodleName.setText(name);
+            nameCheckbox.setSelected(false);
+        }
+    }
 
     public void doLogin(ActionEvent actionEvent) {
         // Check if all the parameters where filled
