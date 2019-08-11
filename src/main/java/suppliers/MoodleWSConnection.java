@@ -1,4 +1,4 @@
-package connections;
+package suppliers;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -164,7 +164,6 @@ public class MoodleWSConnection {
                         s.addContent(fo);
                     } else if (!module.get("modname").getAsString().equals("resource")) {
                         // Check if it is not a file, if true, continue, since there is no interest in this module
-                        System.out.println("FUUUUUUUUUUUI");
                         continue;
                     }
 
@@ -175,7 +174,6 @@ public class MoodleWSConnection {
                         JsonObject content = (JsonObject) contentJSON;
 
                         if (content.get("type").getAsString().equals("file")) {
-                            System.out.println("GUCCIIIIIIII");
                             // Create the file
                             File fi = new File(
                                 // If it is inside a folder, then assume it's real name
@@ -224,7 +222,7 @@ public class MoodleWSConnection {
                 .post(body)
                 .build();
 
-        Response response = null;
+        Response response;
         try {
             response = client.newCall(request).execute();
         } catch (IOException e) {

@@ -1,32 +1,27 @@
 package controllers;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import connections.MoodleWSConnection;
+import suppliers.MoodleWSConnection;
 import database.DataDB;
 import helpers.MessageDialog;
 import helpers.SceneChanger;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import models.*;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class MoodleInfoController {
     public TextField moodleURLField;
     public TextField moodleName;
-    public TextField nameField;
+    public TextField usernameField;
     public PasswordField passwordField;
     public CheckBox nameCheckbox;
 
     public void doLogin(ActionEvent actionEvent) {
         // Check if all the parameters where filled
-        boolean empty = moodleURLField.getText().trim().isEmpty() ||
-                nameField.getText().trim().isEmpty() ||
+        boolean empty = (moodleName.getText().trim().isEmpty() && !nameCheckbox.isSelected()) ||
+                moodleURLField.getText().trim().isEmpty() ||
+                usernameField.getText().trim().isEmpty() ||
                 passwordField.getText().trim().isEmpty();
 
         if (empty) {
@@ -44,14 +39,11 @@ public class MoodleInfoController {
             return;
         }
 
-        // Save the arguments
-        CurrentMoodle.setParams(moodleURL, nameField.getText(), passwordField.getText());
-
         // Check if there is already an instance in the DB
         DataDB db;
         try {
             db = new DataDB();
-            if (db.moodleExists(moodleURL, nameField.getText().trim())) {
+            if (db.moodleExists(moodleURL, usernameField.getText().trim())) {
                 MessageDialog.errorDialog(Errors.MOODLE_EXISTS);
                 return;
             }
@@ -63,10 +55,15 @@ public class MoodleInfoController {
 
         // Move to the Loading Scene
         SceneChanger sc = new SceneChanger(actionEvent);
-        sc.changeScene("MoodleActions/LoadingInfo.fxml");
+        LoadingInfoController nextSceneController = new LoadingInfoController(
+                moodleName.getText().trim(),
+                nameCheckbox.isSelected(),
+                moodleURL,
+                usernameField.getText(),
+                passwordField.getText()
+        );
+        sc.changeSceneWithFactory("MoodleActions/LoadingInfo.fxml", nextSceneController);
     }
-
-
 
     public void checkCheckbox(ActionEvent actionEvent) {
         if(nameCheckbox.isSelected()){

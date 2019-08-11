@@ -1,6 +1,6 @@
 package controllers;
 
-import connections.MoodleWSConnection;
+import suppliers.MoodleWSConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

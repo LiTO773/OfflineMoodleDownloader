@@ -23,7 +23,7 @@
 
    <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
-   <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+   <TextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 

@@ -1,6 +1,6 @@
 package controllers;
 
-import connections.MoodleWSConnection;
+import suppliers.MoodleWSConnection;
 import helpers.MessageDialog;
 import helpers.SceneChanger;
 import javafx.event.ActionEvent;
