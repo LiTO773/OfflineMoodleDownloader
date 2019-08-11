@@ -1,9 +1,13 @@
 package controllers;
 
+import helpers.MessageDialog;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import java.util.Map;
+
+import models.CurrentMoodle;
+import models.Errors;
 import models.Moodle;
-import com.google.gson.JsonObject;
 import suppliers.LoginSupplier;
 import suppliers.MoodleLoginSupplier;
 
@@ -32,29 +36,51 @@ public class LoadingInfoController {
     }
 
     // Login in a separate thread
-    private class LoginService extends Service<JsonObject> {
+    private class LoginService extends Service<Map<String, String>> {
         @Override
-        protected Task<JsonObject> createTask() {
-            return new Task<JsonObject>() {
+        protected Task<Map<String, String>> createTask() {
+            return new Task<Map<String, String>>() {
                 @Override
-                protected JsonObject call() throws Exception {
+                protected Map<String, String> call() throws Exception {
                     return loginSupplier.login(url, username, password);
                 }
 
                 @Override
                 protected void succeeded() {
                     // The task succeeded, setup the Moodle correctly
-                    JsonObject tokenID = getValue();
+                    Map<String, String> response = getValue();
 
-                    //Moodle currentMoodle = new Moodle()
+                    Moodle currentMoodle = new Moodle(
+                            getNameAutomatically ? response.get("sitename") : name,
+                            url,
+                            username,
+                            response.get("token"),
+                            Integer.parseInt(response.get("userid"))
+                    );
+
+                    System.out.println(currentMoodle);
+
+                    CurrentMoodle.setMoodle(currentMoodle);
                 }
 
                 @Override
                 protected void failed() {
                     Throwable error = getException();
 
-                    // TODO Implement the error message switch
-                    System.out.println(error.getMessage());
+                    switch (error.getMessage()) {
+                        case "\"enablewsdescription\"":
+                            MessageDialog.errorDialog(Errors.INCOMPATIBLE_MOODLE);
+                            break;
+                        case "\"missingparam\"":
+                            MessageDialog.errorDialog(Errors.MISSING_PARAMS);
+                            break;
+                        case "\"invalidlogin\"":
+                            MessageDialog.errorDialog(Errors.INVALID_CREDENTIALS);
+                            break;
+                        default:
+                            MessageDialog.errorDialog("Moodle returned this error: " + error);
+                            break;
+                    }
                 }
             };
         }

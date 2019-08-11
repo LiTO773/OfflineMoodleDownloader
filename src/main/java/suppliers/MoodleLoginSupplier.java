@@ -2,12 +2,14 @@ package suppliers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import models.CurrentMoodle;
-import models.TokenID;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MoodleLoginSupplier implements LoginSupplier {
     @Override
-    public JsonObject login(String url, String username, String password) throws Exception {
+    public Map<String, String> login(String url, String username, String password) throws Exception {
+        Map<String, String> result = new HashMap<>();
         MoodleWSConnection moodleWS = new MoodleWSConnection();
 
         // Gets the user's token (as a response)
@@ -23,12 +25,14 @@ public class MoodleLoginSupplier implements LoginSupplier {
 
         // Everything went correctly
         String token = jsonResponse.get("token").getAsString();
+        result.put("token", token);
 
         // Add the userid to the response
-        JsonObject useridJson = moodleWS.getUserID(url, token);
-        jsonResponse.add("userid", useridJson.get("userid"));
+        JsonObject infoJson = moodleWS.getMoodleInfo(url, token);
+        result.put("userid", infoJson.get("userid").getAsString());
+        result.put("sitename", infoJson.get("sitename").getAsString());
 
         // Return the response + userid
-        return jsonResponse;
+        return result;
     }
 }

@@ -83,4 +83,18 @@ public class Moodle {
     public void setDiskLocation(String diskLocation) {
         this.diskLocation = diskLocation;
     }
+
+    @Override
+    public String toString() {
+        return "Moodle{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", username='" + username + '\'' +
+                ", token='" + token + '\'' +
+                ", userid=" + userid +
+                ", courses=" + courses +
+                ", diskLocation='" + diskLocation + '\'' +
+                '}';
+    }
 }

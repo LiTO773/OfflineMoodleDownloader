@@ -56,7 +56,7 @@ public class MoodleWSConnection {
         return sendPOSTRequest(moodleURL, body);
     }
 
-    public JsonObject getUserID(String url, String token) throws IOException, CustomException {
+    public JsonObject getMoodleInfo(String url, String token) throws IOException, CustomException {
         String moodleURL = url + "/webservice/rest/server.php";
 
         RequestBody body = new FormEncodingBuilder()
