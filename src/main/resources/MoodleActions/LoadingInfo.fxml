@@ -5,12 +5,12 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea">
-   <Label text="1 - Logging into Moodle" />
-   <ProgressBar prefWidth="200.0" GridPane.rowIndex="1" />
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoadingInfoController">
+   <Label fx:id="loginLabel" text="1 - Logging into Moodle" />
+   <ProgressBar fx:id="loginProgress" prefWidth="200.0" GridPane.rowIndex="1" />
 
-   <Label text="2 - Loading all courses" GridPane.rowIndex="2" />
-   <ProgressBar prefWidth="200.0" progress="0.00" GridPane.rowIndex="3" />
+   <Label fx:id="coursesLabel" text="2 - Loading all courses" GridPane.rowIndex="2" />
+   <ProgressBar fx:id="coursesProgress" prefWidth="200.0" progress="0.00" GridPane.rowIndex="3" />
 
    <Button mnemonicParsing="false" disable="true" text="Continue" GridPane.rowIndex="4" />
 </GridPane>

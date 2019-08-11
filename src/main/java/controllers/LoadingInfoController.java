@@ -5,6 +5,9 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import java.util.Map;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import models.CurrentMoodle;
 import models.Errors;
 import models.Moodle;
@@ -23,6 +26,12 @@ public class LoadingInfoController {
     // Currently only Moodle is supported, so it's directly defined as MoodleLoginSupplier()
     private LoginSupplier loginSupplier = new MoodleLoginSupplier();
     private LoginService loginService = new LoginService();
+
+    // FXML elements
+    public Label loginLabel;
+    public ProgressBar loginProgress;
+    public Label coursesLabel;
+    public ProgressBar coursesProgress;
 
     public LoadingInfoController(String name, boolean getNameAutomatically, String url, String username, String password) {
         this.name = name;
@@ -57,10 +66,11 @@ public class LoadingInfoController {
                             response.get("token"),
                             Integer.parseInt(response.get("userid"))
                     );
-
-                    System.out.println(currentMoodle);
-
                     CurrentMoodle.setMoodle(currentMoodle);
+
+                    // Indicate the completion of the task in the UI
+                    loginLabel.setText(loginLabel.getText() + " ✅");
+                    loginProgress.setProgress(1.00);
                 }
 
                 @Override
