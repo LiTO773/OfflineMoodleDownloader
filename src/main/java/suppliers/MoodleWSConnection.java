@@ -10,7 +10,9 @@ import models.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class MoodleWSConnection {
@@ -76,7 +78,7 @@ public class MoodleWSConnection {
         }
     }
 
-    public Set<Course> getCourses() throws IOException, CustomException {
+    public List<Course> getCourses() throws IOException, CustomException {
         Moodle currentMoodle = CurrentMoodle.getMoodle();
         String moodleURL = currentMoodle.getUrl() + "/webservice/rest/server.php";
 
@@ -94,7 +96,7 @@ public class MoodleWSConnection {
         JsonArray responseJSON = new JsonParser().parse(response).getAsJsonArray();
 
         // Create a Set of Courses with all the information
-        HashSet<Course> courses = new HashSet<>();
+        ArrayList<Course> courses = new ArrayList<>();
         for (JsonElement jo: responseJSON) {
             int id = ((JsonObject) jo).get("id").getAsInt();
             String shortname = ((JsonObject) jo).get("shortname").getAsString();
@@ -111,7 +113,7 @@ public class MoodleWSConnection {
     public void fillMoodle() throws IOException, CustomException {
         Moodle currentMoodle = CurrentMoodle.getMoodle();
         String moodleURL = currentMoodle.getUrl() + "/webservice/rest/server.php";
-        Set<Course> courses = currentMoodle.getCourses();
+        List<Course> courses = currentMoodle.getCourses();
 
         for (Course c: courses) {
             // Check if the Course is downloadable

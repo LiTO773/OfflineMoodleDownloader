@@ -4,12 +4,16 @@ import helpers.MessageDialog;
 import helpers.SceneChanger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
+import models.Course;
 import models.CurrentMoodle;
 import models.Errors;
 import models.Moodle;
@@ -99,6 +103,20 @@ public class LoadingInfoController {
                     SceneChanger sc = new SceneChanger((Stage) loginLabel.getScene().getWindow());
                     MoodleInfoController nextSceneController = new MoodleInfoController(name, getNameAutomatically, url, username, password);
                     sc.changeSceneWithFactory("MoodleActions/MoodleInfo.fxml", nextSceneController);
+                }
+            };
+        }
+    }
+
+    // Get courses and files on a separate thread
+    private class CourseService extends Service<List<Course>> {
+        @Override
+        protected Task<List<Course>> createTask() {
+            return new Task<List<Course>>() {
+                @Override
+                protected List<Course> call() throws Exception {
+                    // TODO Create CourseSupplier
+                    return new ArrayList<>();
                 }
             };
         }
