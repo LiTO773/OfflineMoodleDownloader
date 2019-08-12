@@ -12,5 +12,8 @@
    <Label fx:id="coursesLabel" text="2 - Loading all courses" GridPane.rowIndex="2" />
    <ProgressBar fx:id="coursesProgress" prefWidth="200.0" progress="0.00" GridPane.rowIndex="3" />
 
-   <Button mnemonicParsing="false" disable="true" text="Continue" GridPane.rowIndex="4" />
+   <Label fx:id="coursesInfoLabel" text="3 - Getting courses info" GridPane.rowIndex="4" />
+   <ProgressBar fx:id="coursesInfoProgress" prefWidth="200.0" progress="0.00" GridPane.rowIndex="5" />
+
+   <Button mnemonicParsing="false" disable="true" text="Continue" GridPane.rowIndex="6" />
 </GridPane>

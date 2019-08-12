@@ -17,7 +17,9 @@ import models.Course;
 import models.CurrentMoodle;
 import models.Errors;
 import models.Moodle;
+import suppliers.CourseSupplier;
 import suppliers.LoginSupplier;
+import suppliers.MoodleCourseSupplier;
 import suppliers.MoodleLoginSupplier;
 
 public class LoadingInfoController {
@@ -32,12 +34,16 @@ public class LoadingInfoController {
     // Currently only Moodle is supported, so it's directly defined as MoodleLoginSupplier()
     private LoginSupplier loginSupplier = new MoodleLoginSupplier();
     private LoginService loginService = new LoginService();
+    private CourseSupplier courseSupplier = new MoodleCourseSupplier();
+    private CourseService courseService = new CourseService();
 
     // FXML elements
     public Label loginLabel;
     public ProgressBar loginProgress;
     public Label coursesLabel;
     public ProgressBar coursesProgress;
+    public Label coursesInfoLabel;
+    public ProgressBar coursesInfoProgress;
 
     public LoadingInfoController(String name, boolean getNameAutomatically, String url, String username, String password) {
         this.name = name;
@@ -77,6 +83,10 @@ public class LoadingInfoController {
                     // Indicate the completion of the task in the UI
                     loginLabel.setText(loginLabel.getText() + " ✅");
                     loginProgress.setProgress(1.00);
+                    coursesProgress.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+
+                    // Move to the next step
+                    courseService.restart();
                 }
 
                 @Override
@@ -108,15 +118,29 @@ public class LoadingInfoController {
         }
     }
 
-    // Get courses and files on a separate thread
+    // Get all courses without files, modules or folders
     private class CourseService extends Service<List<Course>> {
         @Override
         protected Task<List<Course>> createTask() {
             return new Task<List<Course>>() {
                 @Override
                 protected List<Course> call() throws Exception {
-                    // TODO Create CourseSupplier
-                    return new ArrayList<>();
+                    return courseSupplier.getAllCourses();
+                }
+
+                @Override
+                protected void succeeded() {
+                    // All courses were successfully obtained
+                    CurrentMoodle.getMoodle().setCourses(getValue());
+
+                    // Indicate the completion of the task in the UI
+                    coursesLabel.setText(coursesLabel.getText() + " ✅");
+                    coursesProgress.setProgress(1.00);
+                }
+
+                @Override
+                protected void failed() {
+                    System.out.println("oof");
                 }
             };
         }
