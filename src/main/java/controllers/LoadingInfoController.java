@@ -36,6 +36,7 @@ public class LoadingInfoController {
     private LoginService loginService = new LoginService();
     private CourseSupplier courseSupplier = new MoodleCourseSupplier();
     private CourseService courseService = new CourseService();
+    private CourseInfoService courseInfoService = new CourseInfoService();
 
     // FXML elements
     public Label loginLabel;
@@ -133,6 +134,9 @@ public class LoadingInfoController {
                     // Indicate the completion of the task in the UI
                     coursesLabel.setText(coursesLabel.getText() + " ✅");
                     coursesProgress.setProgress(1.00);
+
+                    // Move to the next step
+                    courseInfoService.restart();
                 }
 
                 @Override
@@ -143,6 +147,46 @@ public class LoadingInfoController {
             };
         }
     }
+
+    // Fill the courses
+    private class CourseInfoService extends Service<Void> {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    // Since the progress bar needs to be updated, the loop logic is done here
+                    Moodle currentMoodle = CurrentMoodle.getMoodle();
+                    double step = 1 / (double) currentMoodle.getCourses().size();
+                    double currentProgress = 0.0;
+
+                    for (Course c : currentMoodle.getCourses()) {
+                        courseSupplier.getCourseInfo(c);
+                        currentProgress += step;
+                        System.out.println(currentProgress);
+                        coursesInfoProgress.setProgress(currentProgress);
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void succeeded() {
+                    // All courses were successfully filled
+                    // Indicate the completion of the task in the UI
+                    coursesInfoLabel.setText(coursesInfoLabel.getText() + " ✅");
+                }
+
+                @Override
+                protected void failed() {
+                    // The error message can be re-used
+                    MessageDialog.errorDialog(Errors.COURSES_ERROR);
+                    returnToPreviousScene();
+                }
+            };
+        }
+    }
+
 
     private void returnToPreviousScene() {
         SceneChanger sc = new SceneChanger((Stage) loginLabel.getScene().getWindow());

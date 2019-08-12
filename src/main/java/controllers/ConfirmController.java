@@ -37,13 +37,13 @@ public class ConfirmController {
     }
 
     public void download(ActionEvent actionEvent) {
-        MoodleWSConnection moodleWSConnection = new MoodleWSConnection();
+        /*MoodleWSConnection moodleWSConnection = new MoodleWSConnection();
         try {
-            moodleWSConnection.fillMoodle();
+            // moodleWSConnection.fillMoodle();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CustomException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
