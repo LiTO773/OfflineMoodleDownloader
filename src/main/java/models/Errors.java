@@ -8,6 +8,7 @@ public class Errors {
     public static String MISSING_PARAMS = "Please insert a username and password.";
     public static String IO_ERROR = "There was an IO error. Please check if you are running the application properly.";
     public static String TEXTFIELD_EMPTY = "Please fill all the spaces.";
-    public static String USERID_ERROR = "An error occured while trying to get the 'userid'. The operation cannot continue.";
-    public static String SQL_ERROR = "An error occured while trying to use the database. The operation cannot continue.";
+    public static String USERID_ERROR = "An error occurred while trying to get the 'userid'. The operation cannot continue.";
+    public static String SQL_ERROR = "An error occurred while trying to use the database. The operation cannot continue.";
+    public static String COURSES_ERROR = "An error occurred while trying to get the courses. Check your internet connection and try again.";
 }

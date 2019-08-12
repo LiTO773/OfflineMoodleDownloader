@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.GridPane?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoadingInfoController">
+   <Label fx:id="loginLabel" text="1 - Logging into Moodle" />
+   <ProgressBar fx:id="loginProgress" prefWidth="200.0" GridPane.rowIndex="1" />
+
+   <Label fx:id="coursesLabel" text="2 - Loading all courses" GridPane.rowIndex="2" />
+   <ProgressBar fx:id="coursesProgress" prefWidth="200.0" progress="0.00" GridPane.rowIndex="3" />
+
+   <Label fx:id="coursesInfoLabel" text="3 - Getting courses info" GridPane.rowIndex="4" />
+   <ProgressBar fx:id="coursesInfoProgress" prefWidth="200.0" progress="0.00" GridPane.rowIndex="5" />
+
+   <Button mnemonicParsing="false" disable="true" text="Continue" GridPane.rowIndex="6" />
+</GridPane>

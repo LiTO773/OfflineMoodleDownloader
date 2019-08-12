@@ -1,6 +1,6 @@
 package controllers;
 
-import connections.MoodleWSConnection;
+import suppliers.MoodleWSConnection;
 import helpers.MessageDialog;
 import helpers.SceneChanger;
 import javafx.event.ActionEvent;
@@ -12,11 +12,12 @@ import models.CurrentMoodle;
 import models.CustomException;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 public class ChooseCourses {
     public VBox checkboxes;
-    private Set<Course> courses;
+    private List<Course> courses;
 
     @FXML
     public void initialize() {

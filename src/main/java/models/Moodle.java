@@ -1,5 +1,6 @@
 package models;
 
+import java.util.List;
 import java.util.Set;
 
 public class Moodle {
@@ -9,7 +10,7 @@ public class Moodle {
     String username;
     String token;
     int userid;
-    Set<Course> courses;
+    List<Course> courses;
     String diskLocation;
 
     public Moodle(String name, String url, String username, String token, int userid) {
@@ -68,11 +69,11 @@ public class Moodle {
         this.userid = userid;
     }
 
-    public Set<Course> getCourses() {
+    public List<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(Set<Course> courses) {
+    public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
 
@@ -82,5 +83,19 @@ public class Moodle {
 
     public void setDiskLocation(String diskLocation) {
         this.diskLocation = diskLocation;
+    }
+
+    @Override
+    public String toString() {
+        return "Moodle{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", username='" + username + '\'' +
+                ", token='" + token + '\'' +
+                ", userid=" + userid +
+                ", courses=" + courses +
+                ", diskLocation='" + diskLocation + '\'' +
+                '}';
     }
 }

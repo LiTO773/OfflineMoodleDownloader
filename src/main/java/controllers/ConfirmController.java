@@ -1,6 +1,6 @@
 package controllers;
 
-import connections.MoodleWSConnection;
+import suppliers.MoodleWSConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -37,13 +37,13 @@ public class ConfirmController {
     }
 
     public void download(ActionEvent actionEvent) {
-        MoodleWSConnection moodleWSConnection = new MoodleWSConnection();
+        /*MoodleWSConnection moodleWSConnection = new MoodleWSConnection();
         try {
-            moodleWSConnection.fillMoodle();
+            // moodleWSConnection.fillMoodle();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CustomException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

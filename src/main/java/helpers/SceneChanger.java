@@ -14,14 +14,19 @@ import java.io.IOException;
  * It only exists to avoid a lot of duplicate code.
  */
 public class SceneChanger {
-    ActionEvent event;
+    private Parent resource;
+    private Stage app;
 
     /**
      * Constructor of the object SceneChanger
      * @param event
      */
     public SceneChanger(ActionEvent event) {
-        this.event = event;
+        this.app = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    }
+
+    public SceneChanger(Stage stage) {
+        this.app = stage;
     }
 
     /**
@@ -29,12 +34,21 @@ public class SceneChanger {
      * @param sceneName
      */
     public void changeScene(String sceneName) {
-        Parent resource;
         try {
             resource = FXMLLoader.load(getClass().getClassLoader().getResource(sceneName));
             Scene scene = new Scene(resource);
-            Stage app = (Stage) ((Node) this.event.getSource()).getScene().getWindow();
             app.setScene(scene);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void changeSceneWithFactory(String sceneName, Object controller) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(sceneName));
+            loader.setControllerFactory(t -> controller);
+            resource = loader.load();
+            app.setScene(new Scene(resource));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
