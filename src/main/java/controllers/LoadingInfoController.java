@@ -109,10 +109,7 @@ public class LoadingInfoController {
                             break;
                     }
 
-                    // Return to the previous scene
-                    SceneChanger sc = new SceneChanger((Stage) loginLabel.getScene().getWindow());
-                    MoodleInfoController nextSceneController = new MoodleInfoController(name, getNameAutomatically, url, username, password);
-                    sc.changeSceneWithFactory("MoodleActions/MoodleInfo.fxml", nextSceneController);
+                    returnToPreviousScene();
                 }
             };
         }
@@ -140,9 +137,16 @@ public class LoadingInfoController {
 
                 @Override
                 protected void failed() {
-                    System.out.println("oof");
+                    MessageDialog.errorDialog(Errors.COURSES_ERROR);
+                    returnToPreviousScene();
                 }
             };
         }
+    }
+
+    private void returnToPreviousScene() {
+        SceneChanger sc = new SceneChanger((Stage) loginLabel.getScene().getWindow());
+        MoodleInfoController nextSceneController = new MoodleInfoController(name, getNameAutomatically, url, username, password);
+        sc.changeSceneWithFactory("MoodleActions/MoodleInfo.fxml", nextSceneController);
     }
 }
