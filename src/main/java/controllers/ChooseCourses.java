@@ -16,7 +16,6 @@ import java.util.Set;
 
 public class ChooseCourses {
     public TreeView<String> coursesTree;
-    private List<Course> courses;
 
     @FXML
     public void initialize() {
@@ -58,7 +57,6 @@ public class ChooseCourses {
     }
 
     public void nextScene(ActionEvent actionEvent) {
-        CurrentMoodle.getMoodle().setCourses(courses);
         SceneChanger sc = new SceneChanger(actionEvent);
         sc.changeScene("MoodleActions/ChooseDirectory.fxml");
     }
