@@ -1,6 +1,8 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -9,12 +11,12 @@ import java.util.Set;
  */
 public abstract class DBCollection<E> extends Downloadable {
     private int id;
-    private Set<E> collection;
+    private List<E> collection;
 
     public DBCollection(int id, String name, boolean download) {
         super(name, download);
         this.id = id;
-        this.collection = new HashSet<>();
+        this.collection = new ArrayList<>();
     }
 
     public int getId() {
@@ -25,7 +27,7 @@ public abstract class DBCollection<E> extends Downloadable {
         this.id = id;
     }
 
-    public Set<E> getCollection() {
+    public List<E> getCollection() {
         return collection;
     }
 

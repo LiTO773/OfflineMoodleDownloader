@@ -175,6 +175,10 @@ public class LoadingInfoController {
                     // All courses were successfully filled
                     // Indicate the completion of the task in the UI
                     coursesInfoLabel.setText(coursesInfoLabel.getText() + " ✅");
+
+                    // Move to the next scene
+                    SceneChanger sc = new SceneChanger((Stage) loginLabel.getScene().getWindow());
+                    sc.changeScene("MoodleActions/ChooseCourses.fxml");
                 }
 
                 @Override
