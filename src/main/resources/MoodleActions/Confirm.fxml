@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="center" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ConfirmController">
-   <Label text="Moodle Information:">
-      <font>
-         <Font size="17.0" />
-      </font></Label>
-   <Label fx:id="moodleInfo" />
-   <Label text="Storage Location:">
-      <font>
-         <Font size="17.0" />
-      </font>
-   </Label>
-   <Label fx:id="moodleLocation" />
-   <Label text="Courses to download:">
-      <font>
-         <Font size="17.0" />
-      </font>
-   </Label>
-   <Label fx:id="moodleCourses" />
-   <Button onAction="#download" />
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="center" prefHeight="150" prefWidth="300" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ConfirmController">
+   <children>
+      <Label text="Ready when you are!" />
+      <Label text="" />
+      <Label fx:id="progressLabel" text="" />
+      <ProgressBar fx:id="progressBar" prefWidth="270.0" progress="0.0" />
+      <Button mnemonicParsing="false" onAction="#registerAndDownload" text="Download" />
+   </children>
 </VBox>

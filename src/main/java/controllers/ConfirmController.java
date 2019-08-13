@@ -3,43 +3,19 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import models.Course;
 import models.CurrentMoodle;
 import models.Moodle;
 
 public class ConfirmController {
-    public Label moodleInfo;
-    public Label moodleLocation;
-    public Label moodleCourses;
 
-    @FXML
-    public void initialize() {
-        Moodle currentMoodle = CurrentMoodle.getMoodle();
-        String info = "Name: " + currentMoodle.getName() +
-                "\nURL: " + currentMoodle.getUrl() +
-                "\nUsername: " + currentMoodle.getUsername();
-        moodleInfo.setText(info);
+    public Label progressLabel;
+    public ProgressBar progressBar;
 
-        moodleLocation.setText(currentMoodle.getDiskLocation());
+    public void registerAndDownload(ActionEvent actionEvent) {
+        // Primeiro guardar na base de dados o Moodle
 
-        String courses = "";
-        for (Course c: currentMoodle.getCourses()) {
-            if (c.isDownloadable()) {
-                courses += "- " + c.getName() + "\n";
-            }
-        }
-
-        moodleCourses.setText(courses);
-    }
-
-    public void download(ActionEvent actionEvent) {
-        /*MoodleWSConnection moodleWSConnection = new MoodleWSConnection();
-        try {
-            // moodleWSConnection.fillMoodle();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CustomException e) {
-            e.printStackTrace();
-        }*/
+        // Depois baixar
     }
 }
