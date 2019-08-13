@@ -48,6 +48,6 @@ public class ChooseCourses {
     public void nextScene(ActionEvent actionEvent) {
         CurrentMoodle.getMoodle().setCourses(courses);
         SceneChanger sc = new SceneChanger(actionEvent);
-        sc.changeScene("MoodleActions/Confirm.fxml");
+        sc.changeScene("MoodleActions/ChooseDirectory.fxml");
     }
 }

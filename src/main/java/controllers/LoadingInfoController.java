@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
@@ -24,6 +25,7 @@ import suppliers.MoodleLoginSupplier;
 
 public class LoadingInfoController {
 
+    public Button nextSceneButton;
     // Parameters from the previous scene
     private String name;
     private boolean getNameAutomatically;
@@ -175,6 +177,7 @@ public class LoadingInfoController {
                     // All courses were successfully filled
                     // Indicate the completion of the task in the UI
                     coursesInfoLabel.setText(coursesInfoLabel.getText() + " ✅");
+                    nextSceneButton.setDisable(false);
                 }
 
                 @Override
@@ -187,6 +190,10 @@ public class LoadingInfoController {
         }
     }
 
+    public void nextScene() {
+        SceneChanger sc = new SceneChanger((Stage) loginLabel.getScene().getWindow());
+        sc.changeScene("MoodleActions/ChooseCourses.fxml");
+    }
 
     private void returnToPreviousScene() {
         SceneChanger sc = new SceneChanger((Stage) loginLabel.getScene().getWindow());

@@ -36,6 +36,6 @@ public class ChooseDirectoryController {
     public void nextScene(ActionEvent actionEvent) {
         SceneChanger sc = new SceneChanger(actionEvent);
 
-        sc.changeScene("MoodleActions/ChooseCourses.fxml");
+        sc.changeScene("MoodleActions/Confirm.fxml");
     }
 }
