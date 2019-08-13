@@ -1,5 +1,8 @@
 package controllers;
 
+import javafx.scene.control.TreeTableView;
+import javafx.scene.control.TreeView;
+import models.Downloadable;
 import suppliers.MoodleWSConnection;
 import helpers.MessageDialog;
 import helpers.SceneChanger;
@@ -16,11 +19,12 @@ import java.util.List;
 import java.util.Set;
 
 public class ChooseCourses {
-    public VBox checkboxes;
+    public TreeView coursesTree;
     private List<Course> courses;
 
     @FXML
     public void initialize() {
+        // Setup the TreeView
         MoodleWSConnection moodleWSConnection = new MoodleWSConnection();
         // Load all the courses
         try {
@@ -32,9 +36,9 @@ public class ChooseCourses {
                 cb.setSelected(true);
 
                 // Change the download property if the checkbox gets selected or not
-                cb.selectedProperty().addListener((observable, oldValue, newValue) -> c.setDownload(newValue));
+                //cb.selectedProperty().addListener((observable, oldValue, newValue) -> c.setDownloadable(newValue));
 
-                checkboxes.getChildren().add(cb);
+                //checkboxes.getChildren().add(cb);
             }
         } catch (IOException e) {
             e.printStackTrace();
