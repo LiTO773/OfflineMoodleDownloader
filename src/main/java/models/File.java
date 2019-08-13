@@ -1,18 +1,15 @@
 package models;
 
-public class File implements Content {
+public class File extends Downloadable implements Content {
     String moduleName;
-    String fileName;
     int timeModified;
     String fileURL;
-    boolean download;
 
     public File(String moduleName, String fileName, int timeModified, String fileURL, boolean download) {
+        super(fileName, download);
         this.moduleName = moduleName;
-        this.fileName = fileName;
         this.timeModified = timeModified;
         this.fileURL = fileURL;
-        this.download = download;
     }
 
     public String getModuleName() {
@@ -24,11 +21,7 @@ public class File implements Content {
     }
 
     public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+        return this.getName();
     }
 
     public int getTimeModified() {
@@ -47,22 +40,14 @@ public class File implements Content {
         this.fileURL = fileURL;
     }
 
-    public boolean isDownload() {
-        return download;
-    }
-
-    public void setDownload(boolean download) {
-        this.download = download;
-    }
-
     @Override
     public String toString() {
         return "File{" +
                 "moduleName='" + moduleName + '\'' +
-                ", fileName='" + fileName + '\'' +
+                ", fileName='" + this.getFileName() + '\'' +
                 ", timeModified=" + timeModified +
                 ", fileURL='" + fileURL + '\'' +
-                ", download=" + download +
+                ", download=" + this.isDownloadable() +
                 '}';
     }
 }

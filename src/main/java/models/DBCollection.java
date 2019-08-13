@@ -1,23 +1,22 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * This class dictates what parameters classes that contain multiple elems should have.
  * @param <E>
  */
-public abstract class DBCollection<E> {
+public abstract class DBCollection<E> extends Downloadable {
     private int id;
-    private String name;
-    private boolean download;
-    private Set<E> collection;
+    private List<E> collection;
 
     public DBCollection(int id, String name, boolean download) {
+        super(name, download);
         this.id = id;
-        this.name = name;
-        this.download = download;
-        this.collection = new HashSet<>();
+        this.collection = new ArrayList<>();
     }
 
     public int getId() {
@@ -28,7 +27,7 @@ public abstract class DBCollection<E> {
         this.id = id;
     }
 
-    public Set<E> getCollection() {
+    public List<E> getCollection() {
         return collection;
     }
 
@@ -38,28 +37,12 @@ public abstract class DBCollection<E> {
     boolean removeFromCollection(E e) { return collection.remove(e); }
     // ---
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isDownload() {
-        return download;
-    }
-
-    public void setDownload(boolean download) {
-        this.download = download;
-    }
-
     @Override
     public String toString() {
         return "DBCollection{" +
                 "id=" + id +
-                ", moduleName='" + name + '\'' +
-                ", download=" + download +
+                ", moduleName='" + this.getName() + '\'' +
+                ", download=" + this.isDownloadable() +
                 '}';
     }
 }
