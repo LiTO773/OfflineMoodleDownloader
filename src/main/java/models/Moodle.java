@@ -3,9 +3,8 @@ package models;
 import java.util.List;
 import java.util.Set;
 
-public class Moodle {
+public class Moodle extends Downloadable {
     int id;
-    String name;
     String url;
     String username;
     String token;
@@ -14,7 +13,8 @@ public class Moodle {
     String diskLocation;
 
     public Moodle(String name, String url, String username, String token, int userid) {
-        this.name = name;
+        // By default it is true, however the user can later disable downloads from this Moodle
+        super(name, true);
         this.url = url;
         this.username = username;
         this.token = token;
@@ -27,14 +27,6 @@ public class Moodle {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUrl() {
@@ -89,7 +81,7 @@ public class Moodle {
     public String toString() {
         return "Moodle{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + this.getName() + '\'' +
                 ", url='" + url + '\'' +
                 ", username='" + username + '\'' +
                 ", token='" + token + '\'' +

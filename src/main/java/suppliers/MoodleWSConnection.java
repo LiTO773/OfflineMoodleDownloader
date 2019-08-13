@@ -11,9 +11,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class MoodleWSConnection {
 
@@ -174,7 +172,7 @@ public class MoodleWSConnection {
                                 content.get("filename").getAsString(),
                                 content.get("timemodified").getAsInt(),
                                 content.get("fileurl").getAsString(),
-                                course.isDownload()
+                                course.isDownloadable()
                         );
 
                         // Add to the folder or the section
