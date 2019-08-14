@@ -1,21 +1,67 @@
 package models;
 
+import files.DataOperations;
+
+import java.io.IOException;
+
 /**
  * Static class that stores the currently used Moodle
  */
 public class CurrentMoodle {
-    // Used to store all the data structures necessary
-    private static Moodle current;
+    // Used to store all the data structures necessary during the execution
+    private static MoodleStorage allMoodles = new MoodleStorage();
+    private static int moodlePos = -1; // -1 indicates that it is a new Moodle
 
-    public static void clear() {
-        current = null;
+    // Stores the information about a new Moodle
+    private static Moodle newMoodleStruct;
+
+    public static boolean loadAllMoodles() {
+        try {
+            DataOperations.readData();
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
-    public static void setMoodle(Moodle moodle) {
-        current = moodle;
+    public static boolean writeAllMoodles() {
+        try {
+            DataOperations.writeData();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static MoodleStorage getAllMoodles() {
+        return allMoodles;
+    }
+
+    public static void clear() {
+        moodlePos = -1;
+        newMoodleStruct = null;
+    }
+
+    public static void newMoodle(Moodle moodle) {
+        moodlePos = -1;
+        newMoodleStruct = moodle;
+    }
+
+    public static void setMoodleByPos(int pos) {
+        moodlePos = pos;
     }
 
     public static Moodle getMoodle() {
-        return current;
+        return moodlePos == -1 ? newMoodleStruct : allMoodles.get(moodlePos);
+    }
+
+    public static boolean saveMoodle() {
+        if (!allMoodles.add(newMoodleStruct)) {
+            return false;
+        }
+        moodlePos = allMoodles.size();
+        return true;
     }
 }

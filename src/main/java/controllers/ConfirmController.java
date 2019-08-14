@@ -1,12 +1,12 @@
 package controllers;
 
+import helpers.MessageDialog;
+import helpers.SceneChanger;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import models.Course;
 import models.CurrentMoodle;
-import models.Moodle;
+import models.Errors;
 
 public class ConfirmController {
 
@@ -14,8 +14,14 @@ public class ConfirmController {
     public ProgressBar progressBar;
 
     public void registerAndDownload(ActionEvent actionEvent) {
-        // Primeiro guardar na base de dados o Moodle
+        CurrentMoodle.saveMoodle();
+        // first try to save all Moodles
+        if (!CurrentMoodle.writeAllMoodles()) {
+            // TODO better error handling
+            MessageDialog.errorDialog(Errors.IO_ERROR);
+            return;
+        }
 
-        // Depois baixar
+        // Then download the files
     }
 }

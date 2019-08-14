@@ -1,6 +1,8 @@
 package models;
 
-public class File extends Downloadable implements Content {
+import java.io.Serializable;
+
+public class File extends Downloadable implements Content, Serializable {
     String moduleName;
     int timeModified;
     String fileURL;

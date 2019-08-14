@@ -1,9 +1,10 @@
 package models;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
-public class Moodle extends Downloadable {
+public class Moodle extends Downloadable implements Serializable {
     int id;
     String url;
     String username;
@@ -11,6 +12,9 @@ public class Moodle extends Downloadable {
     int userid;
     List<Course> courses;
     String diskLocation;
+
+    public Moodle() {
+    }
 
     public Moodle(String name, String url, String username, String token, int userid) {
         // By default it is true, however the user can later disable downloads from this Moodle

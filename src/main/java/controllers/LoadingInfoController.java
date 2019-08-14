@@ -5,11 +5,9 @@ import helpers.SceneChanger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -81,7 +79,7 @@ public class LoadingInfoController {
                             response.get("token"),
                             Integer.parseInt(response.get("userid"))
                     );
-                    CurrentMoodle.setMoodle(currentMoodle);
+                    CurrentMoodle.newMoodle(currentMoodle);
 
                     // Indicate the completion of the task in the UI
                     loginLabel.setText(loginLabel.getText() + " ✅");

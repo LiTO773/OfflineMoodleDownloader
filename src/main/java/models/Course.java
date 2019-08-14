@@ -1,8 +1,11 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Course extends DBCollection<Section> {
+public class Course extends DBCollection<Section> implements Serializable {
+    public Course() {}
+
     public Course(int id, String name, boolean download) {
         super(id, name, download);
     }

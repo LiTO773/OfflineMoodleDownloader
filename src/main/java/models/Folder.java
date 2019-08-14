@@ -1,8 +1,9 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Folder extends DBCollection<File> implements Content {
+public class Folder extends DBCollection<File> implements Content, Serializable {
     public Folder(int id, String name, boolean download) {
         super(id, name, download);
     }

@@ -3,16 +3,9 @@ package controllers;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 import models.*;
-import suppliers.MoodleWSConnection;
-import helpers.MessageDialog;
 import helpers.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 
 public class ChooseCourses {
     public TreeView<String> coursesTree;

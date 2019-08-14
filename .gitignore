@@ -200,4 +200,7 @@ nbdist/
 .nb-gradle/
 
 # End of https://www.gitignore.io/api/java,maven,eclipse,netbeans,intellij
+
+# Local files
 omdData\.db
+data\.omd

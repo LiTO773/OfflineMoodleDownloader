@@ -1,10 +1,7 @@
 package suppliers;
 
 import models.Course;
-import models.CurrentMoodle;
-import models.Moodle;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MoodleCourseSupplier implements CourseSupplier {

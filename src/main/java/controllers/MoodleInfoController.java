@@ -2,7 +2,6 @@ package controllers;
 
 import javafx.fxml.FXML;
 import suppliers.MoodleWSConnection;
-import database.DataDB;
 import helpers.MessageDialog;
 import helpers.SceneChanger;
 import javafx.event.ActionEvent;
@@ -73,18 +72,7 @@ public class MoodleInfoController {
         }
 
         // Check if there is already an instance in the DB
-        DataDB db;
-        try {
-            db = new DataDB();
-            if (db.moodleExists(moodleURL, usernameField.getText().trim())) {
-                MessageDialog.errorDialog(Errors.MOODLE_EXISTS);
-                return;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            MessageDialog.errorDialog(Errors.SQL_ERROR);
-            return;
-        }
+        // TODO Implement a mechanism to check if the moodle already exists
 
         // Move to the Loading Scene
         SceneChanger sc = new SceneChanger(actionEvent);

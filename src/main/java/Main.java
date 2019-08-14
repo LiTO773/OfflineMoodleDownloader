@@ -1,11 +1,11 @@
-import database.DataDB;
+import helpers.MessageDialog;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.sql.SQLException;
+import models.CurrentMoodle;
+import models.Errors;
 
 public class Main extends Application {
 
@@ -18,13 +18,12 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        // Start the db
-        try {
-            DataDB db = new DataDB();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Something went wrong with SQL, aborting");
-            System.exit(1);
+        if (!CurrentMoodle.loadAllMoodles()) {
+            // Assume that no file exists and create a new one
+            if (!CurrentMoodle.writeAllMoodles()) {
+                // There was a problem writing
+                MessageDialog.errorDialog(Errors.IO_ERROR);
+            }
         }
 
         launch(args);

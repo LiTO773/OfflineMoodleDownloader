@@ -5,6 +5,10 @@ public abstract class Downloadable {
     private String name;
     private boolean downloadable;
 
+    public Downloadable() {
+
+    }
+
     public Downloadable(String name, boolean downloadable) {
         this.name = name;
         this.downloadable = downloadable;

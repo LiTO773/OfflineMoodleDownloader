@@ -13,6 +13,8 @@ public abstract class DBCollection<E> extends Downloadable {
     private int id;
     private List<E> collection;
 
+    public DBCollection() {}
+
     public DBCollection(int id, String name, boolean download) {
         super(name, download);
         this.id = id;
