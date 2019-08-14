@@ -17,7 +17,7 @@ public class CurrentMoodle {
 
     public static boolean loadAllMoodles() {
         try {
-            DataOperations.readData();
+            allMoodles = DataOperations.readData();
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
             return false;

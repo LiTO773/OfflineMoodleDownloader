@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Set;
  * This class dictates what parameters classes that contain multiple elems should have.
  * @param <E>
  */
-public abstract class DBCollection<E> extends Downloadable {
+public abstract class DBCollection<E> extends Downloadable implements Serializable {
     private int id;
     private List<E> collection;
 

@@ -32,6 +32,8 @@ public class MoodleLoginSupplier implements LoginSupplier {
         result.put("userid", infoJson.get("userid").getAsString());
         result.put("sitename", infoJson.get("sitename").getAsString());
 
+        System.out.println(result);
+
         // Return the response + userid
         return result;
     }

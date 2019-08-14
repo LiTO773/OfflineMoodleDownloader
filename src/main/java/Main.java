@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import models.CurrentMoodle;
 import models.Errors;
+import models.Moodle;
 
 public class Main extends Application {
 
@@ -24,6 +25,11 @@ public class Main extends Application {
                 // There was a problem writing
                 MessageDialog.errorDialog(Errors.IO_ERROR);
             }
+        }
+
+        // DEBUG
+        for (Moodle m: CurrentMoodle.getAllMoodles().getClone()) {
+            System.out.println(m.getName());
         }
 
         launch(args);

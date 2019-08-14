@@ -1,7 +1,9 @@
 package models;
 
+import java.io.Serializable;
+
 // This class is mainly used for the course selection view when setting up a new Moodle
-public abstract class Downloadable {
+public abstract class Downloadable implements Serializable {
     private String name;
     private boolean downloadable;
 

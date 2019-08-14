@@ -2,6 +2,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoodleStorage implements Serializable {
     public static final long serialVersionUID = 1L;
@@ -20,5 +21,9 @@ public class MoodleStorage implements Serializable {
 
     public Moodle get(int pos) {
         return moodles.get(pos);
+    }
+
+    public List<Moodle> getClone() {
+        return (List<Moodle>) moodles.clone();
     }
 }
