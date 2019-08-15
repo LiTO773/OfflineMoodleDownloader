@@ -25,6 +25,23 @@ public class Moodle extends Downloadable implements Serializable {
         this.userid = userid;
     }
 
+    // For cloning
+    private Moodle(String name, boolean downloadable, int id, String url, String username, String token, int userid, List<Course> courses, String diskLocation) {
+        super(name, downloadable);
+        this.id = id;
+        this.url = url;
+        this.username = username;
+        this.token = token;
+        this.userid = userid;
+        this.courses = courses;
+        this.diskLocation = diskLocation;
+    }
+
+    @Override
+    public Moodle clone() {
+        return new Moodle(this.getName(), this.isDownloadable(), id, url, username, token, userid, courses, diskLocation);
+    }
+
     public int getId() {
         return id;
     }

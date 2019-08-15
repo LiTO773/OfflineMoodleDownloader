@@ -11,6 +11,6 @@
       <Label text="" />
       <Label fx:id="progressLabel" text="" />
       <ProgressBar fx:id="progressBar" prefWidth="270.0" progress="0.0" />
-      <Button mnemonicParsing="false" onAction="#registerAndDownload" text="Download" />
+      <Button fx:id="button" mnemonicParsing="false" onAction="#registerAndDownload" text="Download" />
    </children>
 </VBox>

@@ -62,10 +62,11 @@ public class CurrentMoodle {
     }
 
     public static boolean saveMoodle() {
-        if (!allMoodles.add(newMoodleStruct)) {
+        if (!allMoodles.add(newMoodleStruct.clone())) {
             return false;
         }
-        moodlePos = allMoodles.size();
+        moodlePos = allMoodles.size() - 1;
+        newMoodleStruct = null;
         return true;
     }
 }
