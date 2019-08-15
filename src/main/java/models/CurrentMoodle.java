@@ -53,6 +53,10 @@ public class CurrentMoodle {
         moodlePos = pos;
     }
 
+    public static boolean moodleExistsByURLandUsername(String url, String username) {
+        return allMoodles.moodleExistsByURLandUsername(url, username);
+    }
+
     public static Moodle getMoodle() {
         return moodlePos == -1 ? newMoodleStruct : allMoodles.get(moodlePos);
     }

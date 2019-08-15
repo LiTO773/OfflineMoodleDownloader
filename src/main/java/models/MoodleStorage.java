@@ -26,4 +26,13 @@ public class MoodleStorage implements Serializable {
     public List<Moodle> getClone() {
         return (List<Moodle>) moodles.clone();
     }
+
+    public boolean moodleExistsByURLandUsername(String url, String username) {
+        for (Moodle m: moodles) {
+            if (m.getUrl().equals(url) && m.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

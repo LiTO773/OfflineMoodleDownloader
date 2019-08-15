@@ -72,7 +72,10 @@ public class MoodleInfoController {
         }
 
         // Check if there is already an instance in the DB
-        // TODO Implement a mechanism to check if the moodle already exists
+        if (CurrentMoodle.moodleExistsByURLandUsername(moodleURL, usernameField.getText())) {
+            MessageDialog.errorDialog(Errors.MOODLE_EXISTS);
+            return;
+        }
 
         // Move to the Loading Scene
         SceneChanger sc = new SceneChanger(actionEvent);
