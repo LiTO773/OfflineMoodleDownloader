@@ -99,14 +99,14 @@ public class MoodleWSConnection {
             int id = ((JsonObject) jo).get("id").getAsInt();
             String shortname = ((JsonObject) jo).get("shortname").getAsString();
 
-            Course c = new Course(id, shortname, true);
+            Course c = new Course(id, shortname, false);
             courses.add(c);
         }
         return courses;
     }
 
     public void fillCourse(Course course) throws Exception {
-        boolean DEFAULT_DOWNLOAD = true; // Should all the obtained documents be downloadable by default?
+        boolean DEFAULT_DOWNLOAD = false; // All documents are not downloadable by default
         Moodle currentMoodle = CurrentMoodle.getMoodle();
         String moodleURL = currentMoodle.getUrl() + "/webservice/rest/server.php";
 

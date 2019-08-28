@@ -9,11 +9,13 @@ import javafx.fxml.FXML;
 
 public class ChooseCourses {
     public TreeView<String> coursesTree;
+    public Button nextButton;
+
+    public Moodle currentMoodle = CurrentMoodle.getMoodle();
 
     @FXML
     public void initialize() {
         // Setup the TreeView
-        Moodle currentMoodle = CurrentMoodle.getMoodle();
         CheckBoxTreeItem<String> rootItem = createTreeItem(currentMoodle, true);
 
         for (Course course: currentMoodle.getCourses()) {
@@ -56,10 +58,44 @@ public class ChooseCourses {
 
     private CheckBoxTreeItem<String> createTreeItem(Downloadable d, boolean expanded) {
         CheckBoxTreeItem<String> item = new CheckBoxTreeItem<>(d.getName());
-        item.setSelected(true);
-        item.selectedProperty().addListener((obs, oldVal, newVal) -> d.setDownloadable(newVal));
+        item.setSelected(false);
+        item.selectedProperty().addListener((obs, oldVal, newVal) -> nextButton.setDisable(setButtonState(d, newVal)));
         item.setExpanded(expanded);
 
         return item;
+    }
+
+    private boolean setButtonState(Downloadable d, boolean val){
+        d.setDownloadable(val);
+
+        for(Course course: currentMoodle.getCourses()){
+            if(course.isDownloadable()){
+                return false;
+            }
+            for (Section section: course.getCollection()) {
+                if(section.isDownloadable()){
+                    return false;
+                }
+
+                for (Content content: section.getCollection()) {
+                    if (content instanceof Folder){
+                        Folder folder = (Folder) content;
+
+                        for (File file: folder.getCollection()) {
+                            if(file.isDownloadable()){
+                                return false;
+                            }
+                        }
+                    } else {
+                        File file = (File) content;
+                        if(file.isDownloadable()){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }

@@ -9,7 +9,14 @@
 
 <GridPane alignment="center" hgap="10" prefHeight="400" prefWidth="400" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ChooseCourses">
    <Label text="Choose what you want to download." GridPane.rowIndex="0" />
-   <Label text="Everything is selected by default" GridPane.rowIndex="1" />
-   <TreeView fx:id="coursesTree" prefHeight="350.0" prefWidth="370.0" GridPane.rowIndex="2" />
-   <Button onAction="#nextScene" text="Next" GridPane.rowIndex="3" />
+   <TreeView fx:id="coursesTree" prefHeight="350.0" prefWidth="370.0" GridPane.rowIndex="1" />
+   <Button fx:id="nextButton" disable="true" onAction="#nextScene" text="Next" GridPane.rowIndex="2" />
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
 </GridPane>
