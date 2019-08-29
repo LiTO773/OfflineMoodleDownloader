@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import jfxtras.styles.jmetro8.JMetro;
 
 import java.io.IOException;
 
@@ -37,6 +38,7 @@ public class SceneChanger {
         try {
             resource = FXMLLoader.load(getClass().getClassLoader().getResource(sceneName));
             Scene scene = new Scene(resource);
+            new JMetro(JMetro.Style.LIGHT).applyTheme(resource);
             app.setScene(scene);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -48,6 +50,7 @@ public class SceneChanger {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(sceneName));
             loader.setControllerFactory(t -> controller);
             resource = loader.load();
+            new JMetro(JMetro.Style.LIGHT).applyTheme(resource);
             app.setScene(new Scene(resource));
         } catch (IOException ex) {
             ex.printStackTrace();

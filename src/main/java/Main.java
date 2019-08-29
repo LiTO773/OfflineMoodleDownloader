@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import jfxtras.styles.jmetro8.JMetro;
 import models.CurrentMoodle;
 import models.Errors;
 import models.Moodle;
@@ -15,6 +16,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("MoodleActions/MoodleInfo.fxml"));
         primaryStage.setTitle("OfflineMoodleDownloader");
         primaryStage.setScene(new Scene(root, 300, 275));
+        new JMetro(JMetro.Style.LIGHT).applyTheme(root);
         primaryStage.show();
     }
 
