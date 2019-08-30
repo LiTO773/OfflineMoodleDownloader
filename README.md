@@ -13,5 +13,10 @@ This is one of my small projects, however, my main goals are:
 This project is being developed in Java 1.8 with JavaFX, so you'll need to have those installed.
 After that feel free to take any pull requests or anything in the goal list.
 
+## Special Thanks
+All contibutors that are helping the project!
+
+[Twemoji](https://twemoji.twitter.com) for the free emojis provided.
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details

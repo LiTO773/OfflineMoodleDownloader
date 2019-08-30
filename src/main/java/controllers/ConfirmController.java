@@ -1,17 +1,21 @@
 package controllers;
 
 import helpers.MessageDialog;
+import helpers.SceneChanger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.stage.Stage;
 import models.*;
 import suppliers.DownloadSupplier;
 
+import java.awt.*;
 import java.io.File;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -25,6 +29,7 @@ public class ConfirmController {
 
     private DownloadSupplier downloadSupplier = new DownloadSupplier();
     private FileDownloadService fileDownloadService = new FileDownloadService();
+    private String moodleFolderPath = "";
 
     public void registerAndDownload(ActionEvent actionEvent) {
         button.setDisable(true);
@@ -53,7 +58,7 @@ public class ConfirmController {
                     Moodle currentMoodle = CurrentMoodle.getMoodle();
                     System.out.println(currentMoodle);
                     // Create the folder to store Moodle
-                    String moodleFolderPath = Paths.get(currentMoodle.getDiskLocation(), safeFileName(currentMoodle.getName())).toString();
+                    moodleFolderPath = Paths.get(currentMoodle.getDiskLocation(), safeFileName(currentMoodle.getName())).toString();
                     createFolder(moodleFolderPath);
 
                     // Step for the Course
@@ -88,10 +93,7 @@ public class ConfirmController {
                                 currentProgress += fileStep;
 
                                 if (con instanceof Folder) {
-                                    if (!((Folder) con).isDownloadable()) {
-                                        currentProgress += fileStep;
-                                        continue;
-                                    }
+                                    if (!((Folder) con).isDownloadable()) continue;
                                     // Create the folder to store the folder
                                     String folderFolderPath = Paths.get(sectionFolderPath, safeFileName(((Folder) con).getName())).toString();
                                     createFolder(folderFolderPath);
@@ -100,11 +102,9 @@ public class ConfirmController {
                                         downloadSupplier.download(f.getFileName(), folderFolderPath, f.getFileURL());
                                     }
                                 } else {
-                                    if (!((models.File) con).isDownloadable()) {
-                                        currentProgress += fileStep;
-                                        continue;
-                                    }
+                                    if (!((Folder) con).isDownloadable()) continue;
                                     models.File f = (models.File) con;
+
                                     downloadSupplier.download(f.getFileName(), sectionFolderPath, f.getFileURL());
                                 }
                                 progressBar.setProgress(currentProgress);
@@ -116,8 +116,13 @@ public class ConfirmController {
 
                 @Override
                 protected void succeeded() {
-                    // the unicode is this emoji -> 😃
-                    MessageDialog.infoDialog("Hurray, you have a backup of your Moodle on your computer \uD83D\uDE03");
+                    try {
+                        Desktop.getDesktop().open(new File(moodleFolderPath));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    SceneChanger sc = new SceneChanger((Stage) progressLabel.getScene().getWindow());
+                    sc.changeScene("MoodleActions/SuccessfulDownload.fxml");
                 }
 
                 @Override
