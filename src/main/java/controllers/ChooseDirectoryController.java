@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.SharedMethods.FilePicker;
 import helpers.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -17,13 +18,7 @@ public class ChooseDirectoryController {
     public Button nextScene;
 
     public void openDirectoryChooser(ActionEvent actionEvent) {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        // Get the stage (needed to display the DirectoryChooser)
-        Node source = (Node) actionEvent.getSource();
-        Window stage = source.getScene().getWindow();
-
-        // Allow the selection of the directory
-        File selectedDirectory = directoryChooser.showDialog(stage);
+        File selectedDirectory = FilePicker.picker(actionEvent);
 
         if(selectedDirectory == null){
             directoryChosen.setText("No Directory selected");

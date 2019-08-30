@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 
 
-<BorderPane prefHeight="240" prefWidth="420" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenu">
+<BorderPane minHeight="240" prefWidth="420" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenu">
    <center>
       <ListView fx:id="moodleList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>

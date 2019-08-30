@@ -36,7 +36,7 @@
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" BorderPane.alignment="CENTER">
          <Button cancelButton="true" contentDisplay="CENTER" onAction="#back" text="Discard" />
          <Button contentDisplay="CENTER" onAction="#delete" style="-fx-background-color: ee1111; -fx-text-fill: white;" text="Delete" />
-         <Button contentDisplay="CENTER" defaultButton="true" onAction="#apply" text="Apply" />
+         <Button contentDisplay="CENTER" defaultButton="true" fx:id="applyButton" onAction="#apply" text="Apply" />
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
