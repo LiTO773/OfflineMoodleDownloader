@@ -13,9 +13,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("MoodleActions/MoodleInfo.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("MoodleActions/MainMenu.fxml"));
         primaryStage.setTitle("OfflineMoodleDownloader");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Scene scene = new Scene(root, 420, 240);
+        scene.getStylesheets().add("main.css");
+        primaryStage.setScene(scene);
         new JMetro(JMetro.Style.LIGHT).applyTheme(root);
         primaryStage.show();
     }

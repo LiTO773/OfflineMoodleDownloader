@@ -97,4 +97,9 @@ public class MoodleInfoController {
             moodleName.setDisable(false);
         }
     }
+
+    public void goBack(ActionEvent actionEvent) {
+        SceneChanger sc = new SceneChanger(actionEvent);
+        sc.changeScene("MoodleActions/MainMenu.fxml");
+    }
 }

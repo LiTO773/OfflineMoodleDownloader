@@ -1,6 +1,7 @@
 package helpers;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -22,7 +23,7 @@ public class SceneChanger {
      * Constructor of the object SceneChanger
      * @param event
      */
-    public SceneChanger(ActionEvent event) {
+    public SceneChanger(Event event) {
         this.app = (Stage) ((Node) event.getSource()).getScene().getWindow();
     }
 
@@ -38,6 +39,7 @@ public class SceneChanger {
         try {
             resource = FXMLLoader.load(getClass().getClassLoader().getResource(sceneName));
             Scene scene = new Scene(resource);
+            scene.getStylesheets().add("main.css");
             new JMetro(JMetro.Style.LIGHT).applyTheme(resource);
             app.setScene(scene);
         } catch (IOException ex) {
@@ -51,7 +53,9 @@ public class SceneChanger {
             loader.setControllerFactory(t -> controller);
             resource = loader.load();
             new JMetro(JMetro.Style.LIGHT).applyTheme(resource);
-            app.setScene(new Scene(resource));
+            Scene scene = new Scene(resource);
+            scene.getStylesheets().add("main.css");
+            app.setScene(scene);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -29,7 +29,8 @@
 
    <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-   <Button onAction="#doLogin" text="Submit" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+   <Button cancelButton="true" onAction="#goBack" text="Back" GridPane.rowIndex="5" />
+   <Button defaultButton="true" onAction="#doLogin" text="Submit" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
    <columnConstraints>
       <ColumnConstraints />
