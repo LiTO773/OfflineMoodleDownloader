@@ -33,12 +33,16 @@ public class MainMenu {
         moodleList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                int index = moodleList.getSelectionModel().getSelectedIndex();
+
                 SceneChanger sc = new SceneChanger(event);
                 // Check if "Add Moodle" was clicked
-                if (moodleList.getSelectionModel().getSelectedIndex() == moodles.size()) {
+                if (index == moodles.size()) {
                     sc.changeScene("MoodleActions/MoodleInfo.fxml");
+                } else {
+                    EditMoodle editMoodle = new EditMoodle(index);
+                    sc.changeSceneWithFactory("MoodleActions/EditMoodle.fxml", editMoodle);
                 }
-                System.out.println("clicked on " + moodleList.getSelectionModel().getSelectedIndex());
             }
         });
     }

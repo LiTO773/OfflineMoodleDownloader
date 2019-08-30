@@ -9,7 +9,4 @@
    <center>
       <ListView fx:id="moodleList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
-   <bottom>
-      <Label text="⚙️" BorderPane.alignment="CENTER" />
-   </bottom>
 </BorderPane>
