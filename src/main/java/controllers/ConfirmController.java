@@ -49,31 +49,49 @@ public class ConfirmController {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
+
                     Moodle currentMoodle = CurrentMoodle.getMoodle();
                     System.out.println(currentMoodle);
-                    // Step for the Progress bar
-                    double step = 1 / (double) currentMoodle.getCourses().size();
-                    double currentProgress = 0.0;
-
                     // Create the folder to store Moodle
                     String moodleFolderPath = Paths.get(currentMoodle.getDiskLocation(), safeFileName(currentMoodle.getName())).toString();
                     createFolder(moodleFolderPath);
 
+                    // Step for the Course
+                    double courseStep = 1 / (double) currentMoodle.getCourses().size();
+                    double currentProgress = 0.0;
+
                     for (Course cou : currentMoodle.getCourses()) {
+                        if (!cou.isDownloadable()) {
+                            currentProgress += courseStep;
+                            continue;
+                        }
                         // Create the folder to store the course
                         String courseFolderPath = Paths.get(moodleFolderPath, safeFileName(cou.getName())).toString();
                         createFolder(courseFolderPath);
+
+                        // Step for the Section
+                        double sectionStep = courseStep / cou.getCollection().size();
+
                         for (Section s: cou.getCollection()) {
+                            if (!s.isDownloadable()) {
+                                currentProgress += sectionStep;
+                                continue;
+                            }
                             // Create the folder to store the section
                             String sectionFolderPath = Paths.get(courseFolderPath, safeFileName(s.getName())).toString();
                             createFolder(sectionFolderPath);
 
                             // Set the step size
-                            double fileStep = step / s.getCollection().size();
+                            double fileStep = courseStep / s.getCollection().size();
+
                             for (Content con: s.getCollection()) {
                                 currentProgress += fileStep;
 
                                 if (con instanceof Folder) {
+                                    if (!((Folder) con).isDownloadable()) {
+                                        currentProgress += fileStep;
+                                        continue;
+                                    }
                                     // Create the folder to store the folder
                                     String folderFolderPath = Paths.get(sectionFolderPath, safeFileName(((Folder) con).getName())).toString();
                                     createFolder(folderFolderPath);
@@ -82,6 +100,10 @@ public class ConfirmController {
                                         downloadSupplier.download(f.getFileName(), folderFolderPath, f.getFileURL());
                                     }
                                 } else {
+                                    if (!((models.File) con).isDownloadable()) {
+                                        currentProgress += fileStep;
+                                        continue;
+                                    }
                                     models.File f = (models.File) con;
                                     downloadSupplier.download(f.getFileName(), sectionFolderPath, f.getFileURL());
                                 }

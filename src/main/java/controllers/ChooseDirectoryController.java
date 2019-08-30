@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 import models.CurrentMoodle;
+import models.Moodle;
 
 import java.io.File;
 
