@@ -19,6 +19,11 @@ public class FilePicker {
     }
 
     public static File picker(ActionEvent event, String dir) {
+        // Check if a directory is provided, if not, do the default method
+        if (dir == null) {
+            return picker(event);
+        }
+
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setInitialDirectory(new File(dir));
 

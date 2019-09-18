@@ -8,6 +8,14 @@ public class Folder extends DBCollection<File> implements Content, Serializable 
         super(id, name, download);
     }
 
+    public Folder(Folder obj) {
+        this(obj.getId(), obj.getName(), obj.isDownloadable());
+
+        for (File f: obj.getCollection()) {
+            super.addToCollection(new File(f));
+        }
+    }
+
     // Rewritten methods to better represent the class
     public boolean addFile(File f) {
         return addToCollection(f);

@@ -1,6 +1,7 @@
 package controllers;
 
 import controllers.SharedMethods.CoursesPopulator;
+import controllers.SharedMethods.DifferenceChecker;
 import controllers.SharedMethods.FilePicker;
 import helpers.SceneChanger;
 import javafx.event.ActionEvent;
@@ -26,11 +27,16 @@ public class EditMoodle {
     public EditMoodle(int pos) {
         moodlePos = pos;
         // A clone is made in order to compare the changes
-        moodleClone = CurrentMoodle.getAllMoodles().get(pos).clone();
+        moodleClone = new Moodle(CurrentMoodle.getAllMoodles().get(pos));
     }
 
     @FXML
     public void initialize() {
+        // Add check to see if the name is empty or not
+        moodleName.textProperty().addListener((observable, oldValue, newValue) -> {
+            applyButton.setDisable(newValue.trim().isEmpty() || moodleClone.getDiskLocation() == null);
+        });
+
         // Populate name
         moodleName.setText(moodleClone.getName());
 
@@ -48,6 +54,7 @@ public class EditMoodle {
         if(selectedDirectory == null){
             directoryButton.setText("No Directory selected");
             applyButton.setDisable(true);
+            moodleClone.setDiskLocation(null);
         }else{
             directoryButton.setText(selectedDirectory.getAbsolutePath());
             applyButton.setDisable(false);
@@ -65,5 +72,18 @@ public class EditMoodle {
     }
 
     public void apply(ActionEvent actionEvent) {
+        // TODO this
+        Moodle actualMoodle = CurrentMoodle.getAllMoodles().get(moodlePos);
+        actualMoodle.setName(moodleName.getText());
+
+        // Check for courses changes
+        System.out.println(DifferenceChecker.areDifferentLists(actualMoodle.getCourses(), moodleClone.getCourses()));
+
+        // Check if the location changed
+        if (!moodleClone.getDiskLocation().equals(actualMoodle.getDiskLocation())) {
+            // Files will need to be moved
+
+
+        }
     }
 }

@@ -62,7 +62,7 @@ public class CurrentMoodle {
     }
 
     public static boolean saveMoodle() {
-        if (!allMoodles.add(newMoodleStruct.clone())) {
+        if (!allMoodles.add(new Moodle(newMoodleStruct))) {
             return false;
         }
         moodlePos = allMoodles.size() - 1;

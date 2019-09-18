@@ -1,10 +1,7 @@
 package models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class dictates what parameters classes that contain multiple elems should have.
@@ -47,5 +44,23 @@ public abstract class DBCollection<E> extends Downloadable implements Serializab
                 ", moduleName='" + this.getName() + '\'' +
                 ", download=" + this.isDownloadable() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DBCollection<?> that = (DBCollection<?>) o;
+
+        return this.getName().equals(that.getName()) &&
+                this.isDownloadable() == that.isDownloadable() &&
+                id == that.id &&
+                this.collection.stream().allMatch(c -> that.collection.contains(c));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, collection);
     }
 }

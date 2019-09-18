@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Set;
 
 public class Course extends DBCollection<Section> implements Serializable {
@@ -8,6 +9,14 @@ public class Course extends DBCollection<Section> implements Serializable {
 
     public Course(int id, String name, boolean download) {
         super(id, name, download);
+    }
+
+    public Course(Course obj) {
+        this(obj.getId(), obj.getName(), obj.isDownloadable());
+
+        for (Section s: obj.getCollection()) {
+            super.addToCollection(new Section(s));
+        }
     }
 
     // Rewritten methods to better represent the class

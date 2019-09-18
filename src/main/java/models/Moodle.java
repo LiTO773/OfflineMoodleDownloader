@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +17,21 @@ public class Moodle extends Downloadable implements Serializable {
     public Moodle() {
     }
 
+    // Cloning constructor
+    public Moodle(Moodle obj) {
+        this(obj.getName(), obj.url, obj.username, obj.token, obj.userid);
+        super.setDownloadable(obj.isDownloadable());
+        this.setDiskLocation(obj.diskLocation);
+
+        // Clone the list
+        ArrayList<Course> cloneCourses = new ArrayList<>();
+        for (Course c: obj.courses) {
+            cloneCourses.add(new Course(c));
+        }
+
+        this.courses = cloneCourses;
+    }
+
     public Moodle(String name, String url, String username, String token, int userid) {
         // By default it is true, however the user can later disable downloads from this Moodle
         super(name, true);
@@ -23,23 +39,6 @@ public class Moodle extends Downloadable implements Serializable {
         this.username = username;
         this.token = token;
         this.userid = userid;
-    }
-
-    // For cloning
-    private Moodle(String name, boolean downloadable, int id, String url, String username, String token, int userid, List<Course> courses, String diskLocation) {
-        super(name, downloadable);
-        this.id = id;
-        this.url = url;
-        this.username = username;
-        this.token = token;
-        this.userid = userid;
-        this.courses = courses;
-        this.diskLocation = diskLocation;
-    }
-
-    @Override
-    public Moodle clone() {
-        return new Moodle(this.getName(), this.isDownloadable(), id, url, username, token, userid, courses, diskLocation);
     }
 
     public int getId() {

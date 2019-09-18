@@ -20,6 +20,10 @@ public abstract class Downloadable implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public boolean isDownloadable() {
         return downloadable;
     }

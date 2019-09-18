@@ -102,8 +102,8 @@ public class ConfirmController {
                                         downloadSupplier.download(f.getFileName(), folderFolderPath, f.getFileURL());
                                     }
                                 } else {
-                                    if (!((Folder) con).isDownloadable()) continue;
                                     models.File f = (models.File) con;
+                                    if (!f.isDownloadable()) continue;
 
                                     downloadSupplier.download(f.getFileName(), sectionFolderPath, f.getFileURL());
                                 }
@@ -129,6 +129,7 @@ public class ConfirmController {
                 protected void failed() {
                     // The error message can be re-used
                     System.out.println(getException().toString());
+                    getException().printStackTrace();
                     MessageDialog.errorDialog(getException().getMessage());
 //                    returnToPreviousScene();
                 }
