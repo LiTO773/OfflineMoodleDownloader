@@ -43,7 +43,9 @@ public class CoursesPopulator {
     private static CheckBoxTreeItem<String> createTreeItem(Downloadable d, boolean expanded) {
         CheckBoxTreeItem<String> item = new CheckBoxTreeItem<>(d.getName());
         item.setSelected(d.isDownloadable());
-        item.selectedProperty().addListener((obs, oldVal, newVal) -> d.setDownloadable(newVal));
+        // If it is selected or indeterminate, then set download to true
+        item.indeterminateProperty().addListener((obs, oldVal, newVal) -> d.setDownloadable(obs.getValue() || item.selectedProperty().get()));
+        item.selectedProperty().addListener((obs, oldVal, newVal) -> d.setDownloadable(obs.getValue() || item.indeterminateProperty().get()));
         item.setExpanded(expanded);
 
         return item;

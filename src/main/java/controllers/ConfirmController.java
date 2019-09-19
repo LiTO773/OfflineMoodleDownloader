@@ -99,7 +99,9 @@ public class ConfirmController {
                                     createFolder(folderFolderPath);
 
                                     for (models.File f: ((Folder) con).getCollection()) {
-                                        downloadSupplier.download(f.getFileName(), folderFolderPath, f.getFileURL());
+                                        if (f.isDownloadable()) {
+                                            downloadSupplier.download(f.getFileName(), folderFolderPath, f.getFileURL());
+                                        }
                                     }
                                 } else {
                                     models.File f = (models.File) con;
