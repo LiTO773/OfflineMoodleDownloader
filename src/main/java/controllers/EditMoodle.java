@@ -62,12 +62,10 @@ public class EditMoodle {
         File selectedDirectory = FilePicker.picker(actionEvent, moodleClone.getDiskLocation());
 
         if(selectedDirectory == null){
-            directoryButton.setText("No Directory selected");
-            applyButton.setDisable(true);
-            moodleClone.setDiskLocation(null);
+            directoryButton.setText(actualMoodle.getDiskLocation());
+            moodleClone.setDiskLocation(actualMoodle.getDiskLocation());
         }else{
             directoryButton.setText(selectedDirectory.getAbsolutePath());
-            applyButton.setDisable(false);
             moodleClone.setDiskLocation(selectedDirectory.getAbsolutePath());
         }
     }
@@ -123,7 +121,6 @@ public class EditMoodle {
                 return;
             }
         }
-
 
         // Check if the location changed
         // If so, move thr contents to the new location
