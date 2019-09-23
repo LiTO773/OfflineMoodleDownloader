@@ -3,6 +3,8 @@ package controllers;
 import controllers.SharedMethods.CoursesPopulator;
 import controllers.SharedMethods.DifferenceChecker;
 import controllers.SharedMethods.FilePicker;
+import helpers.MessageDialog;
+import helpers.PathOperations;
 import helpers.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +16,9 @@ import models.CurrentMoodle;
 import models.Moodle;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class EditMoodle {
     public TextField moodleName;
@@ -72,18 +77,55 @@ public class EditMoodle {
     }
 
     public void apply(ActionEvent actionEvent) {
-        // TODO this
+        // Check if the name changed
+        // If it did, update the moodle's name and the folder's name
         Moodle actualMoodle = CurrentMoodle.getAllMoodles().get(moodlePos);
-        actualMoodle.setName(moodleName.getText());
+
+
+        // O QUE É QUE ESTOU A FAZER: Tratar das operações da view
+
+        String currentName = actualMoodle.getName();
+        String newName = moodleName.getText();
+        File currentFolder = new File(PathOperations.path(actualMoodle.getDiskLocation(), currentName));
+        File newFolder = new File(PathOperations.path(actualMoodle.getDiskLocation(), newName));
+        if (currentName.equals(newName)) {
+            if (currentFolder.renameTo(newFolder)) {
+                System.out.println("Folder name changed successfully!");
+                actualMoodle.setName(PathOperations.safeFileName(newName));
+            } else {
+                MessageDialog.errorDialog("An error occurred when renaming the Moodle! Please check if the name doesn't contain any special characters and/or if the original folder is still in the same location.");
+                return;
+            }
+        }
+
+
+        // Check if the location changed
+        // If so, move thr contents to the new location
+        String currentLocation = actualMoodle.getDiskLocation();
+        String newLocation = moodleClone.getDiskLocation();
+        System.out.println(currentFolder);
+        System.out.println(newLocation);
+        if (!currentLocation.equals(newLocation)) {
+            // Files will need to be moved
+            String newDirectory = PathOperations.path(newLocation, newName);
+            try {
+                new File(newDirectory).mkdirs();
+                Files.move(currentFolder.toPath(), new File(newDirectory).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                actualMoodle.setDiskLocation(newLocation);
+            } catch (IOException e) {
+                MessageDialog.errorDialog("An error while trying to move to a new location! Please check if the directory has correct permissions.");
+                return;
+            }
+        }
 
         // Check for courses changes
         System.out.println(DifferenceChecker.areDifferentLists(actualMoodle.getCourses(), moodleClone.getCourses()));
 
-        // Check if the location changed
-        if (!moodleClone.getDiskLocation().equals(actualMoodle.getDiskLocation())) {
-            // Files will need to be moved
+        // Save the changes
+        // TODO error handling
+        CurrentMoodle.writeAllMoodles();
 
-
-        }
+        SceneChanger sc = new SceneChanger(actionEvent);
+        sc.changeScene("MoodleActions/MainMenu.fxml");
     }
 }

@@ -2,7 +2,14 @@ package helpers;
 
 import java.io.File;
 
-public class FileNameHelper {
+public class PathOperations {
+    public static String path(String original, String file) {
+        String os = System.getProperty("os.name");
+        boolean isWindows = os.startsWith("Windows");
+
+        return original + (isWindows ? '\\' : '/') + safeFileName(file);
+    }
+
     public static boolean createFolder(String path) {
         return new File(path).mkdirs();
     }

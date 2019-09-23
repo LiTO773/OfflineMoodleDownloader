@@ -5,7 +5,7 @@ import com.squareup.okhttp.*;
 import java.io.*;
 import java.nio.file.Paths;
 
-import static helpers.FileNameHelper.safeFileName;
+import static helpers.PathOperations.safeFileName;
 
 public class DownloadSupplier {
     public Void download(String fileName, String location, String fileURL) throws IOException {

@@ -65,7 +65,9 @@ public class File extends Downloadable implements Content, Serializable {
         File file = (File) o;
         return timeModified == file.timeModified &&
                 moduleName.equals(file.moduleName) &&
-                fileURL.equals(file.fileURL);
+                fileURL.equals(file.fileURL) &&
+                getFileName().equals(file.getFileName()) &&
+                isDownloadable() == file.isDownloadable();
     }
 
     @Override
