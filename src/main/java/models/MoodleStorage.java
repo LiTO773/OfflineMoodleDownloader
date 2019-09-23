@@ -15,6 +15,10 @@ public class MoodleStorage implements Serializable {
         return moodles.add(moodle);
     }
 
+    public boolean remove(int pos) {
+        return moodles.remove(pos) != null;
+    }
+
     public int size() {
         return moodles.size();
     }

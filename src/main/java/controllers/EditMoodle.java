@@ -9,6 +9,7 @@ import helpers.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.CheckBoxTreeCell;
@@ -18,7 +19,9 @@ import models.Moodle;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Comparator;
 
 public class EditMoodle {
     public TextField moodleName;
@@ -28,10 +31,12 @@ public class EditMoodle {
 
     private int moodlePos;
     private Moodle moodleClone;
+    private Moodle actualMoodle;
 
     public EditMoodle(int pos) {
         moodlePos = pos;
         // A clone is made in order to compare the changes
+        actualMoodle = CurrentMoodle.getAllMoodles().get(moodlePos);
         moodleClone = new Moodle(CurrentMoodle.getAllMoodles().get(pos));
     }
 
@@ -73,22 +78,43 @@ public class EditMoodle {
     }
 
     public void delete(ActionEvent actionEvent) {
-        // TODO check if the user wants to remove only the moodle or everything
+        ButtonBar.ButtonData answer = MessageDialog.deleteEverythingDialog();
+
+        String location = PathOperations.path(actualMoodle.getDiskLocation(), actualMoodle.getName());
+
+        if (answer == ButtonBar.ButtonData.YES || answer == ButtonBar.ButtonData.NO) {
+            CurrentMoodle.clear();
+
+            // Remove the Moodle from the DB
+            if (!CurrentMoodle.removeMoodle(moodlePos)) {
+                MessageDialog.errorDialog("An error occurred and it wasn't possible to delete the Moodle from the database.");
+                back(actionEvent);
+                return;
+            }
+
+            // Remove Moodle's files
+            if (answer == ButtonBar.ButtonData.YES) {
+                try {
+                    Files.walk(new File(location).toPath())
+                            .sorted(Comparator.reverseOrder())
+                            .map(Path::toFile)
+                            .forEach(File::delete);
+                } catch (IOException e) {
+                    MessageDialog.errorDialog("Unable to delete Moodle from disk. Please try removing it manually.");
+                }
+            }
+            back(actionEvent);
+        }
     }
 
     public void apply(ActionEvent actionEvent) {
         // Check if the name changed
         // If it did, update the moodle's name and the folder's name
-        Moodle actualMoodle = CurrentMoodle.getAllMoodles().get(moodlePos);
-
-
-        // O QUE É QUE ESTOU A FAZER: Tratar das operações da view
-
         String currentName = actualMoodle.getName();
         String newName = moodleName.getText();
         File currentFolder = new File(PathOperations.path(actualMoodle.getDiskLocation(), currentName));
         File newFolder = new File(PathOperations.path(actualMoodle.getDiskLocation(), newName));
-        if (currentName.equals(newName)) {
+        if (!currentName.equals(newName)) {
             if (currentFolder.renameTo(newFolder)) {
                 System.out.println("Folder name changed successfully!");
                 actualMoodle.setName(PathOperations.safeFileName(newName));
@@ -125,7 +151,6 @@ public class EditMoodle {
         // TODO error handling
         CurrentMoodle.writeAllMoodles();
 
-        SceneChanger sc = new SceneChanger(actionEvent);
-        sc.changeScene("MoodleActions/MainMenu.fxml");
+        back(actionEvent);
     }
 }

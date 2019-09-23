@@ -69,4 +69,8 @@ public class CurrentMoodle {
         newMoodleStruct = null;
         return true;
     }
+
+    public static boolean removeMoodle(int moodlePos) {
+        return allMoodles.remove(moodlePos);
+    }
 }
