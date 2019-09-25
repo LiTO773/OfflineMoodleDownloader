@@ -73,4 +73,13 @@ public class CurrentMoodle {
     public static boolean removeMoodle(int moodlePos) {
         return allMoodles.remove(moodlePos);
     }
+
+    // Refresh Time information
+    public static RefreshTime getRefreshTime() {
+        return allMoodles.getRefreshTime();
+    }
+
+    public static void setRefreshTime(RefreshTime refreshTime) {
+        allMoodles.setRefreshTime(refreshTime);
+    }
 }

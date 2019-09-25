@@ -2,6 +2,7 @@ package controllers;
 
 import helpers.SceneChanger;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -45,5 +46,10 @@ public class MainMenu {
                 }
             }
         });
+    }
+
+    public void openSettings(ActionEvent actionEvent) {
+        SceneChanger sc = new SceneChanger(actionEvent);
+        sc.changeScene("MoodleActions/Settings.fxml");
     }
 }

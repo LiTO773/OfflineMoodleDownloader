@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+// Stores everything the application needs
 public class MoodleStorage implements Serializable {
     public static final long serialVersionUID = 1L;
     private ArrayList<Moodle> moodles = new ArrayList<>();
+    private RefreshTime refreshTime = RefreshTime.HOUR1;
 
     public MoodleStorage() {
     }
 
+    // moodles
     public boolean add(Moodle moodle) {
         return moodles.add(moodle);
     }
@@ -38,5 +41,14 @@ public class MoodleStorage implements Serializable {
             }
         }
         return false;
+    }
+
+    // refreshTime
+    public RefreshTime getRefreshTime() {
+        return refreshTime;
+    }
+
+    public void setRefreshTime(RefreshTime refreshTime) {
+        this.refreshTime = refreshTime;
     }
 }

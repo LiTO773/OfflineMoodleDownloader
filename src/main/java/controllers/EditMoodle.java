@@ -98,9 +98,12 @@ public class EditMoodle {
                             .map(Path::toFile)
                             .forEach(File::delete);
                 } catch (IOException e) {
+                    e.printStackTrace();
                     MessageDialog.errorDialog("Unable to delete Moodle from disk. Please try removing it manually.");
                 }
             }
+
+            CurrentMoodle.writeAllMoodles();
             back(actionEvent);
         }
     }
