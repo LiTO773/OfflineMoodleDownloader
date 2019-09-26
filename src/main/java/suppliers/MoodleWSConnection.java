@@ -106,7 +106,7 @@ public class MoodleWSConnection {
     }
 
     public void fillCourse(Course course) throws Exception {
-        boolean DEFAULT_DOWNLOAD = true; // Should all the obtained documents be downloadable by default?
+        boolean DEFAULT_DOWNLOAD = true;
         Moodle currentMoodle = CurrentMoodle.getMoodle();
         String moodleURL = currentMoodle.getUrl() + "/webservice/rest/server.php";
 
@@ -172,6 +172,7 @@ public class MoodleWSConnection {
                                 content.get("filename").getAsString(),
                                 content.get("timemodified").getAsInt(),
                                 content.get("fileurl").getAsString(),
+                                content.get("filesize").getAsInt(),
                                 course.isDownloadable()
                         );
 

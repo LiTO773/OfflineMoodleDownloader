@@ -4,19 +4,21 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class File extends Downloadable implements Content, Serializable {
-    String moduleName;
-    int timeModified;
-    String fileURL;
+    private String moduleName;
+    private int timeModified;
+    private String fileURL;
+    private int fileSize;
 
-    public File(String moduleName, String fileName, int timeModified, String fileURL, boolean download) {
+    public File(String moduleName, String fileName, int timeModified, String fileURL, int fileSize, boolean download) {
         super(fileName, download);
         this.moduleName = moduleName;
         this.timeModified = timeModified;
         this.fileURL = fileURL;
+        this.fileSize = fileSize;
     }
 
     public File(File obj) {
-        this(obj.moduleName, obj.getFileName(), obj.timeModified, obj.fileURL, obj.isDownloadable());
+        this(obj.moduleName, obj.getFileName(), obj.timeModified, obj.fileURL, obj.fileSize, obj.isDownloadable());
     }
 
     public String getModuleName() {
@@ -47,6 +49,14 @@ public class File extends Downloadable implements Content, Serializable {
         this.fileURL = fileURL;
     }
 
+    public int getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(int fileSize) {
+        this.fileSize = fileSize;
+    }
+
     @Override
     public String toString() {
         return "File{" +
@@ -54,6 +64,7 @@ public class File extends Downloadable implements Content, Serializable {
                 ", fileName='" + this.getFileName() + '\'' +
                 ", timeModified=" + timeModified +
                 ", fileURL='" + fileURL + '\'' +
+                ", fileSize='" + fileSize + '\'' +
                 ", download=" + this.isDownloadable() +
                 '}';
     }

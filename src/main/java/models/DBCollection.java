@@ -1,5 +1,7 @@
 package models;
 
+import helpers.FileSizeCalculator;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -62,5 +64,22 @@ public abstract class DBCollection<E> extends Downloadable implements Serializab
     @Override
     public int hashCode() {
         return Objects.hash(id, collection);
+    }
+
+    public int totalSize() {
+        int total = 0;
+        for (E elem: collection) {
+            if (elem instanceof File) {
+                total += ((File) elem).getFileSize();
+            } else if (elem instanceof DBCollection) {
+                total += ((DBCollection) elem).totalSize();
+            }
+        }
+
+        return total;
+    }
+
+    public String sizeString() {
+        return FileSizeCalculator.calculate(totalSize());
     }
 }

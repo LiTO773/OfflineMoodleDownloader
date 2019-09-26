@@ -1,5 +1,7 @@
 package models;
 
+import helpers.FileSizeCalculator;
+
 import java.io.Serializable;
 
 // This class is mainly used for the course selection view when setting up a new Moodle
