@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.control.Button?>
-<BorderPane minHeight="240" prefWidth="420" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Settings">
+<BorderPane minHeight="240" prefWidth="540" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Settings">
    <top>
       <Label text="Settings">
          <font>
@@ -21,23 +21,30 @@
       </Label>
    </top>
    <center>
-      <GridPane alignment="BASELINE_LEFT" hgap="10" vgap="10">
-         <HBox GridPane.rowIndex="1">
-            <Label text="Refresh interval">
-               <HBox.margin>
-                  <Insets right="10.0" top="7.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="15.0" />
-               </font></Label>
-            <ComboBox fx:id="timeOptions" value="Time" />
+      <GridPane alignment="BASELINE_LEFT" hgap="10" styleClass="formLabel" vgap="10">
+         <Label text="Refresh interval" />
+         <ComboBox fx:id="timeOptions" value="Time" GridPane.columnIndex="1" />
+
+         <Label text="Default action when new files are found" GridPane.rowIndex="1" />
+         <ComboBox fx:id="newOptions" value="Action" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+         <Label text="Default action when files are deleted" GridPane.rowIndex="2" />
+         <ComboBox fx:id="deletedOptions" value="Action" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+         <Label text="Theme" GridPane.rowIndex="3" />
+         <fx:define>
+            <ToggleGroup fx:id="themeGroup" />
+         </fx:define>
+         <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <RadioButton fx:id="lightRadio" text="Light    " toggleGroup="$themeGroup" />
+            <RadioButton fx:id="darkRadio" text="Dark" toggleGroup="$themeGroup" />
          </HBox>
       </GridPane>
    </center>
    <bottom>
       <HBox spacing="10">
-         <Button text="Back" cancelButton="true" onAction="#goBack"></Button>
-         <Button text="Apply" defaultButton="true" onAction="#apply"></Button>
+         <Button cancelButton="true" onAction="#goBack" text="Back" />
+         <Button defaultButton="true" onAction="#apply" text="Apply" />
       </HBox>
    </bottom>
 </BorderPane>

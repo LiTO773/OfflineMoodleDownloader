@@ -1,5 +1,9 @@
 package models;
 
+import models.enums.DeletedActions;
+import models.enums.NewActions;
+import models.enums.RefreshTime;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +12,11 @@ import java.util.List;
 public class MoodleStorage implements Serializable {
     public static final long serialVersionUID = 1L;
     private ArrayList<Moodle> moodles = new ArrayList<>();
+
+    // Settings variables
     private RefreshTime refreshTime = RefreshTime.HOUR1;
+    private NewActions newFileAction = NewActions.DOWNLOAD;
+    private DeletedActions deletedFileAction = DeletedActions.KEEP;
 
     public MoodleStorage() {
     }
@@ -43,12 +51,28 @@ public class MoodleStorage implements Serializable {
         return false;
     }
 
-    // refreshTime
+    // Settings
     public RefreshTime getRefreshTime() {
         return refreshTime;
     }
 
     public void setRefreshTime(RefreshTime refreshTime) {
         this.refreshTime = refreshTime;
+    }
+
+    public NewActions getNewFileAction() {
+        return newFileAction;
+    }
+
+    public void setNewFileAction(NewActions newFileAction) {
+        this.newFileAction = newFileAction;
+    }
+
+    public DeletedActions getDeletedFileAction() {
+        return deletedFileAction;
+    }
+
+    public void setDeletedFileAction(DeletedActions deletedFileAction) {
+        this.deletedFileAction = deletedFileAction;
     }
 }

@@ -1,4 +1,4 @@
-package models;
+package models.enums;
 
 public enum RefreshTime {
     MIN30(30), HOUR1(60), HOUR2(120), HOUR6(360), HOUR12(720);

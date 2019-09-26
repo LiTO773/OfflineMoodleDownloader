@@ -1,6 +1,9 @@
 package models;
 
 import files.DataOperations;
+import models.enums.DeletedActions;
+import models.enums.NewActions;
+import models.enums.RefreshTime;
 
 import java.io.IOException;
 
@@ -74,12 +77,28 @@ public class CurrentMoodle {
         return allMoodles.remove(moodlePos);
     }
 
-    // Refresh Time information
+    // Settings
     public static RefreshTime getRefreshTime() {
         return allMoodles.getRefreshTime();
     }
 
     public static void setRefreshTime(RefreshTime refreshTime) {
         allMoodles.setRefreshTime(refreshTime);
+    }
+
+    public static NewActions getNewFileAction() {
+        return allMoodles.getNewFileAction();
+    }
+
+    public static void setNewFileAction(NewActions refreshTime) {
+        allMoodles.setNewFileAction(refreshTime);
+    }
+
+    public static DeletedActions getDeletedFileAction() {
+        return allMoodles.getDeletedFileAction();
+    }
+
+    public static void setDeletedFileAction(DeletedActions refreshTime) {
+        allMoodles.setDeletedFileAction(refreshTime);
     }
 }
