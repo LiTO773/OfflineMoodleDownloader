@@ -1,6 +1,7 @@
 package helpers;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class PathOperations {
     public static String path(String original, String file) {
@@ -8,6 +9,14 @@ public class PathOperations {
         boolean isWindows = os.startsWith("Windows");
 
         return original + (isWindows ? '\\' : '/') + safeFileName(file);
+    }
+
+    public static String path(String original, ArrayList<String> files) {
+        String result = original;
+        for (String file: files) {
+            result = path(result, file);
+        }
+        return result;
     }
 
     public static boolean createFolder(String path) {

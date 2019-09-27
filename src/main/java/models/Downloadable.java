@@ -33,4 +33,6 @@ public abstract class Downloadable implements Serializable {
     public void setDownloadable(boolean val) {
         downloadable = val;
     }
+
+    public abstract boolean equalsWithoutDownload(Object o);
 }

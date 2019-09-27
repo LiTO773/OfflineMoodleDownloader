@@ -1,5 +1,6 @@
 package models;
 
+import controllers.SharedMethods.ListComparisonUtils.ArrayListIgnoreDownload;
 import helpers.FileSizeCalculator;
 
 import java.io.Serializable;
@@ -49,6 +50,22 @@ public abstract class DBCollection<E> extends Downloadable implements Serializab
     }
 
     @Override
+    public boolean equalsWithoutDownload(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DBCollection<?> that = (DBCollection<?>) o;
+
+        ArrayListIgnoreDownload<?> thisCollection = new ArrayListIgnoreDownload<>(this.collection);
+        ArrayListIgnoreDownload<?> thatCollection = new ArrayListIgnoreDownload<>(that.collection);
+
+        return this.getName().equals(that.getName()) &&
+                id == that.id &&
+                thisCollection.stream().allMatch(c -> thatCollection.indexOf(c) != -1) &&
+                this.collection.size() == that.collection.size();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -56,9 +73,10 @@ public abstract class DBCollection<E> extends Downloadable implements Serializab
         DBCollection<?> that = (DBCollection<?>) o;
 
         return this.getName().equals(that.getName()) &&
-                this.isDownloadable() == that.isDownloadable() &&
                 id == that.id &&
-                this.collection.stream().allMatch(c -> that.collection.contains(c));
+                this.collection.stream().allMatch(c -> that.collection.contains(c)) &&
+                this.collection.size() == that.collection.size() &&
+                this.isDownloadable() == that.isDownloadable();
     }
 
     @Override

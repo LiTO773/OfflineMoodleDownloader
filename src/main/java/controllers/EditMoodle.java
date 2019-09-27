@@ -1,7 +1,7 @@
 package controllers;
 
 import controllers.SharedMethods.CoursesPopulator;
-import controllers.SharedMethods.DifferenceChecker;
+import controllers.SharedMethods.ListComparisonUtils.ListComparison;
 import controllers.SharedMethods.FilePicker;
 import helpers.MessageDialog;
 import helpers.PathOperations;
@@ -145,7 +145,8 @@ public class EditMoodle {
         }
 
         // Check for courses changes
-        System.out.println(DifferenceChecker.areDifferentLists(actualMoodle.getCourses(), moodleClone.getCourses()));
+        ListComparison lc = new ListComparison(actualMoodle.getCourses(), moodleClone.getCourses(), actualMoodle);
+        lc.downloadAndUpdate();
 
         // Save the changes
         // TODO error handling

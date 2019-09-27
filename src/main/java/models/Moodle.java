@@ -110,4 +110,10 @@ public class Moodle extends Downloadable implements Serializable {
                 ", diskLocation='" + diskLocation + '\'' +
                 '}';
     }
+
+    // This method is never used for this class
+    @Override
+    public boolean equalsWithoutDownload(Object o) {
+        return false;
+    }
 }

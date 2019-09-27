@@ -70,15 +70,19 @@ public class File extends Downloadable implements Content, Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equalsWithoutDownload(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         File file = (File) o;
         return timeModified == file.timeModified &&
                 moduleName.equals(file.moduleName) &&
                 fileURL.equals(file.fileURL) &&
-                getFileName().equals(file.getFileName()) &&
-                isDownloadable() == file.isDownloadable();
+                getFileName().equals(file.getFileName());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return equalsWithoutDownload(o) && this.isDownloadable() == ((Downloadable) o).isDownloadable();
     }
 
     @Override
