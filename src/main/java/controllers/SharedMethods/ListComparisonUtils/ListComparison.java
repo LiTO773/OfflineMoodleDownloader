@@ -27,6 +27,9 @@ public class ListComparison {
     private boolean canDownload;
     private boolean askDownload;
 
+    // List that stores files which had an usual behavior
+    private ArrayList<String> notDeleted = new ArrayList<>();
+
     // The actual lists
     private ArrayListIgnoreDownload<Course> originalListIgnore;
     private ArrayListIgnoreDownload<Course> newListIgnore;
@@ -65,9 +68,11 @@ public class ListComparison {
         path.add(moodle.getName());
 
         // Loop every list and delete/ignore the files
-        deleteLoop(originalListIgnore, newListIgnore, path);
+        if (deleteBoolean()) {
+            deleteLoop(originalListIgnore, newListIgnore, path);
+        }
 
-        return null;
+        return notDeleted;
     }
 
     private void deleteLoop(ArrayListIgnoreDownload oldList, ArrayListIgnoreDownload newList, ArrayList<String> path) {
@@ -94,19 +99,17 @@ public class ListComparison {
 
         System.out.println(newD.isDownloadable());
         if (index == -1 || (original.isDownloadable() && !newD.isDownloadable())) {
-            if (deleteBoolean()) {
-                try {
-                    String generatedPath = PathOperations.path(moodle.getDiskLocation(), path);
-                    Files.walk(new File(generatedPath).toPath())
-                            .sorted(Comparator.reverseOrder())
-                            .map(Path::toFile)
-                            .forEach(File::delete);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    MessageDialog.errorDialog("Unable to delete Moodle from disk. Please try removing it manually.");
-                }
-                return -1;
+            String generatedPath = PathOperations.path(moodle.getDiskLocation(), path);
+            try {
+                Files.walk(new File(generatedPath).toPath())
+                        .sorted(Comparator.reverseOrder())
+                        .map(Path::toFile)
+                        .forEach(File::delete);
+            } catch (IOException e) {
+                e.printStackTrace();
+                notDeleted.add(generatedPath);
             }
+            return -1;
         }
         return index;
     }

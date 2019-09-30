@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class EditMoodle {
@@ -146,10 +147,17 @@ public class EditMoodle {
 
         // Check for courses changes
         ListComparison lc = new ListComparison(actualMoodle.getCourses(), moodleClone.getCourses(), actualMoodle);
-        lc.downloadAndUpdate();
+        ArrayList<String> result = lc.downloadAndUpdate();
+
+        if (result != null && result.size() != 0) {
+            MessageDialog.warningDialog(
+                    "The following files couldn't be deleted, please delete them manually:\n" +
+                    result.stream().reduce("", (a, b) -> a + "\n" + b)
+            );
+        }
 
         // Save the changes
-        // TODO error handling
+        actualMoodle.setCourses(moodleClone.getCourses());
         CurrentMoodle.writeAllMoodles();
 
         back(actionEvent);

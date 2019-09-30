@@ -25,6 +25,15 @@ public class MessageDialog {
         alert.showAndWait();
     }
 
+    public static void warningDialog(String msg) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Hey look at this!");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+
+        alert.showAndWait();
+    }
+
     public static ButtonBar.ButtonData deleteEverythingDialog() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Before you delete");
